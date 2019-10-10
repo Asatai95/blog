@@ -79,8 +79,6 @@ LOGIN_URL = 'apps:login'
 LOGIN_REDIRECT_URL = 'apps:top'
 LOGOUT_URL = 'apps:logout'
 
-
-print(BASE_DIR)
 WSGI_APPLICATION = 'config.wsgi.application'
 # sys.path.append(os.getcwd())
 # ASGI_APPLICATION = 'mysite.routing.application'
