@@ -1,0 +1,84 @@
+<!doctype html>
+{% load static %}
+<html lang="ja">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+  <link rel="stylesheet" media="screen and (max-width: 480px)" href="{% static 'css/index_sp.css' %} " />
+  <link rel="stylesheet" media="screen and (min-width: 481px) and (max-width: 896px)" href="{% static 'css/index_tb.css' %} " />
+  <link rel="stylesheet" media="screen and (min-width: 897px)" href="{% static 'css/index.css' %} " />
+
+
+  <title>roomii</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="main_nav">
+                <div class="nav_type_1">
+                    <ul>
+                        <li>未定</li>
+                    </ul>
+                </div>
+                <div class="nav_type_2">
+                    <ul>
+                        <li>未定</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <aside class="sidebar right">
+        <nav id="global-nav">
+            <ul>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="main_content">
+        <!-- <header>
+            ul
+        </header> -->
+        <div class="blog_article">
+
+
+                {% block content %}{% endblock %}
+        </div>
+        <div class="page_top">
+            <!-- <div><span>ページトップ</span></div> -->
+            <img src="{% static 'img/pagetop.png'%}" alt="">
+        </div>
+        <footer>
+            <div class="footer_info">
+                <div class="copy">
+                    <img src="{% static 'img/footer_copy.png' %}" alt="">
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+  {% block extrajs %}{% endblock %}
+
+  <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+
+</body>
+
+</html>
