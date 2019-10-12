@@ -11,7 +11,7 @@ from django.conf.urls.static import static
 app_name = 'mysite'
 
 urlpatterns = [
-    path('article/', views.MainView.as_view(), name='top'),
+    path('', views.MainView.as_view(), name='top'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
