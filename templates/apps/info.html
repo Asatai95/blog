@@ -1,0 +1,109 @@
+{% extends 'apps/base.html' %}
+{% load static %}
+{% block content %}
+<div class="card mb-3 main_blog info">
+    <div class="row no-gutters">
+        <div class="badge-secondary">
+            <h1>{{info.title}}</h1>
+        </div>
+        <div class="card_comment_box info">
+            <div class="col main_box">
+                <div class="card-body">
+                    <div class="contents_sub_title">
+                        <p class="card-text sub_info">
+                            {% for y in date %}
+                                {% if y.day == "today"%}
+                                    <span>Today</span>
+                                {% else %}
+                                    <span>約 {{y.day}} 日前</span>
+                                {% endif %}
+                                <span>{{info.created_at}}</span>
+                            {% endfor %}
+                        </p>
+                        <p class="card-text sub_info topic">
+                            <span>
+                                <a href="#">
+                                    {% for y in tags %}
+                                        {% if info.tags == y.id %}
+                                            {{y.name}}
+                                        {% endif %}
+                                    {% endfor %}
+                                </a>
+                            </span>
+                        </p>
+                        <p class="card-text sub_info topic">
+                            <span class="tag">
+                                <a href="#">
+                                    {% for y in category_table %}
+                                        {% if info.category == y.id %}
+                                            {{y.name}}
+                                        {% endif %}
+                                    {% endfor %}
+                                </a>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <div class="main_article_info_block">
+                    {% for y in content_id %}
+                        {% for x in content %}
+                            {% if x.block == y %}
+                                <div class="article_info contents">
+                                    {% if x.sub_title %}
+                                        <div class="sub_title_block">
+                                            <p>{{x.sub_title}}</p>
+                                        </div>
+                                    {% endif %}
+                                    {% if x.content %}
+                                        <div class="main_article_contents">
+                                            <p>{{x.content}}</p>
+                                        </div>
+                                    {% endif %}
+                                    {% if x.image %}
+                                        <div class="image_block">
+                                            <img src="{{ctx_proc_value}}{{x.image}}" alt="">
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <p>添付ファイル</p>
+                        {% if references %}
+                            {% for z in references %}
+                                {% if z.title %}
+                                    <ul>
+                                        <li><a href="{{z.link}}">{{z.title}}</a></li>
+                                        <li><a href="{{z.link}}">{{z.title}}</a></li>
+                                        <li><a href="{{z.link}}">{{z.title}}</a></li>
+                                    </ul>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>関連記事</p>
+                        {% if references %}
+                            {% for z in references %}
+                                {% if z.tmpfile %}
+                                    <ul>
+                                        <li><a href="{{z.link}}">{{z.tmpfile}}</a></li>
+                                        <li><a href="{{z.link}}">{{z.tmpfile}}</a></li>
+                                        <li><a href="{{z.link}}">{{z.tmpfile}}</a></li>
+                                    </ul>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

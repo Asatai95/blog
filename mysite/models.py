@@ -104,7 +104,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
-        db_table = 'mysite_user'
+        db_table = 'user'
 
     def get_full_name(self):
         """Return the first_name plus the last_name, with a space in
@@ -119,7 +119,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Article(models.Model):
 
     id = models.AutoField(primary_key=True)
-    article = models.IntegerField(_('user id'), blank=True , null=True)
+    title = models.CharField(_('title'), max_length=150, null = True, blank = True, unique=False)
+    tags = models.IntegerField(_('tags'), blank=True , null=True)
+    category = models.IntegerField(_('category'), blank=True , null=True)
+    image = models.CharField(_('image'), max_length=150, null = True, blank = True, unique=False)
     created_at = models.DateTimeField(_('created at'), default=timezone.now)
     updated_at = models.DateTimeField(_('created at'), auto_now=True)
 
@@ -127,3 +130,54 @@ class Article(models.Model):
         verbose_name = _('article')
         verbose_name_plural = _('article')
         db_table = 'article'
+
+class CategoryInfo(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(_('name'), max_length=150, null = True, blank = True, unique=False)
+
+    class Meta:
+        verbose_name = _('category')
+        verbose_name_plural = _('category')
+        db_table = 'category'
+
+class TagsInfo(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(_('name'), max_length=150, null = True, blank = True, unique=False)
+
+    class Meta:
+        verbose_name = _('tag')
+        verbose_name_plural = _('tag')
+        db_table = 'tags'
+
+class Content(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    article_id = models.IntegerField(_('article id'), blank=True , null=True)
+    block = models.IntegerField(_('block'), blank=True , null=True)
+    sub_title = models.CharField(_('sub_title'), max_length=45, null = True, blank = True, unique=False)
+    content = models.TextField(_('article'), max_length=1000, null = True, blank = True, unique=False)
+    image = models.CharField(_('image'), max_length=150, null = True, blank = True, unique=False)
+    created_at = models.DateTimeField(_('created at'), default=timezone.now)
+    updated_at = models.DateTimeField(_('created at'), auto_now=True)
+
+    class Meta:
+        verbose_name = _('content')
+        verbose_name_plural = _('content')
+        db_table = 'contents'
+
+class References(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    article_id = models.IntegerField(_('article id'), blank=True , null=True)
+    title = models.CharField(_('title'), max_length=255, null = True, blank = True, unique=False)
+    link = models.TextField(_('link'), null = True, blank = True, unique=False)
+    tmpfile = models.CharField(_('tmpfile'), max_length=255, null = True, blank = True, unique=False)
+    created_at = models.DateTimeField(_('created at'), default=timezone.now)
+    updated_at = models.DateTimeField(_('created at'), auto_now=True)
+
+    class Meta:
+        verbose_name = _('link')
+        verbose_name_plural = _('link')
+        db_table = 'references'

@@ -2,112 +2,59 @@
 {% load static %}
 {% block content %}
 
-<div class="article_block">
-    <div class="blog_title_top_box">
-        <div class="blog_title container">
-            <p>あさたいブログ＠</p>
-            <div class="blog_sub_comments">
-                <span>[ひとこと]</span>
-                <p>どうも、あさたいです。新しく自分の記録用ブログを設けました。<br>プログラミング関連の記事を掲載していきます。</p>
-            </div>
-        </div>
-    </div>
-    <div class="article_view_all">
-        <a href="#">
-            <p>記事一覧</p>
-        </a>
-    </div>
-    <div class="artcle_content_block">
+<div class="box_management">
+    {% for x in table %}
         <div class="card mb-3 main_blog">
+
             <div class="row no-gutters">
                 <div class="badge-secondary">
-                    <h1>テストコメント</h1>
+                    <h1>{{x.title}}</h1>
                 </div>
                 <div class="card_comment_box">
                     <div class="col-md-8">
                         <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="contents_sub_title">
+                                <p class="card-text sub_info">
+                                    {% for y in date %}
+                                        {% if y.id == x.id %}
+                                            {% if y.day == "today"%}
+                                                <span>Today</span>
+                                            {% else %}
+                                                <span>約 {{y.day}} 日前</span>
+                                            {% endif %}
+                                            <span>{{x.created_at}}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+                                <p class="card-text sub_info topic">
+                                    <span>
+                                        <a href="#">
+                                            {% for z in tags %}
+                                                {% if z.id == x.tags %}
+                                                    {{z.name}}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </a>
+                                    </span>
+                                </p>
+                            </div>
                             <div class="text_box_card">
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                                <a href="#">
+                                <!-- <div class="logo">
+                                    <img src="{% static 'img/logo.png' %}" alt="">
+                                </div> -->
+                                <a href="{% url 'apps:info' x.pk %}">
                                     <button type="button" class="read_more">記事を読む</button>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <img src="{% static 'img/0e445b7d913a20beea6e0514d7d3d49d_w_YkctER7.jpeg' %}" class="card-img" alt="...">
+                        <img src="{{ctx_proc_value}}{{x.image}}" class="card-img" alt="...">
                     </div>
                 </div>
             </div>
         </div>
-        <div class="sub_window">
-            <div class="sub_window_tab">
-                <div class="card bg-light mb-3">
-                    <div class="card-header badge-secondary">
-                        <span class="sub_card_title">ALL Category</span>
-                    </div>
-                    <div class="card-body menu_tabs">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <a href="#">
-                                    プログラミング関連
-                                </a>
-                                <div class="count">
-                                    <span class="count_text">1</span>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="#">
-                                    その他
-                                </a>
-                                <div class="count">
-                                    <span class="count_text">1</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="sub_window_tab">
-                <div class="card bg-light mb-3">
-                    <div class="card-header badge-secondary">
-                        <span class="sub_card_title">TAG</span>
-                    </div>
-                    <div class="card-body menu_tabs">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <a href="#">
-                                    flutter
-                                </a>
-                                <div class="count">
-                                    <span class="count_text">1</span>
-                                </div>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="bottom_article_tile_link">
-        <aside>
-            <div class="list-group my-5 col-12">
-                <ul>
-                    <li class="list-group-item text-white bg-dark">
-                        過去1週間の記事
-                    </li>
-                    <li class="article_text_link">
-                        <a href="#">flutterの導入</a>
-                    </li>
-
-                </ul>
-
-            </div>
-        </aside>
-    </div>
-
+    {% endfor %}
 </div>
 
 

@@ -1,0 +1,41 @@
+{% extends 'register/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row_login">
+    <div class="login_title">
+        <p>ログイン</p>
+    </div>
+    <form action="" method="POST">
+        <div class="card-body">
+          <div class="form_login_field">
+            <div class="login_main_error">
+              {{ form.non_field_errors }}
+            </div>
+            {% for field in form %}
+              <div class="login_input">
+                {{field.label_tag}}
+                {{ field }}
+                {{ field.errors }}
+              </div>
+            {% endfor %}
+            {{error}}
+          </div>
+          <button type="submit" class="btn btn-lg btn-block login_bt">ログイン</button>
+          <input type="hidden" name="next" value="{{ next }}" />
+          {% csrf_token %}
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script>
+    $(function(){
+        $(".login_input label").each(function(){
+            var label = $(this).text().replace(/:/gi, "");
+            $(this).text(label);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends 'apps/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card mb-3 main_blog info">
+    <div class="error_field">
+        {{ form.non_field_errors }}
+    </div>
+    <div class="row no-gutters">
+
+        <div class="badge-secondary">
+            {{form.title}}
+        </div>
+        <div class="card_comment_box info">
+            <div class="col main_box">
+                <div class="card-body">
+                    <div class="contents_sub_title input_form">
+                        <div class="select_box title_box">
+                            <span class="icon">カテゴリー</span>
+                            <select id="category_select">
+                                <option value="">選択してください</option>
+                                {% for x in category_table %}
+                                    <option value="{{x.name}}">{{x.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <p class="card-text sub_info topic input_form">
+                            {{form.category}}
+                        </p>
+                        <div class="select_box title_box">
+                            <span class="icon">タグ</span>
+                            <select id="tags_select">
+                                <option value="">選択してください</option>
+                                {% for x in tags %}
+                                    <option value="{{x.name}}">{{x.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <p class="card-text sub_info topic input_form">
+                            {{form.tags}}
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <div class="main_article_info_block">
+                    <div class="article_info contents">
+                        <div class="content_block">
+                            <p>
+                                <span>ブロック</span>{{form.block}}
+                            </p>
+                        </div>
+                        <div class="sub_title_block input_form">
+                            <div class="select_box title_box">
+                                <span class="icon">サブタイトル</span>
+                                <select id="sub_title_select">
+                                    <option value="">選択してください</option>
+                                    {% for x in content %}
+                                        <option value="{{x.sub_title}}">{{x.sub_title}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {{form.sub_title}}
+                        </div>
+                        <div class="main_article_contents input_form">
+                            <div class="select_box title_box">
+                                <span class="icon">コンテンツ</span>
+                            </div>
+                            {{form.content}}
+                        </div>
+                        <div class="image_block input_form">
+                            <div class="select_box title_box">
+                                <span class="icon">画像</span>
+                            </div>
+                            {{form.img}}
+                        </div>
+                    </div>
+                    <div class="more_information">
+                        <p>
+                            <a href="#">
+                                <img src="{% static 'img/add.png' %}" alt="">
+                                ブロックを追加する
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <p>添付ファイル</p>
+                        {{form.tmp_file}}
+                    </div>
+                    <div>
+                        <p>関連記事</p>
+                        {{form.url}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block extrajs %}
+
+<script>
+    $(function(){
+        $(".select_box").each(function(){
+            $(this).find("select").change(function(){
+                var value = $(this).val();
+                console.log(value)
+                $(this).parents(".select_box").next("p").find("input").val(value);
+            });
+        });
+        $(".main_article_info_block").each(function(){
+            var content = $(this).html();
+            $(".more_information p a").on("click", function(e){
+                e.preventDefault();
+                $(".main_article_info_block .more_information").remove();
+                $(".main_article_info_block").append(
+                    content
+                );
+
+                var count_box = [];
+                $(".content_block").each(function(index){
+                    count_box.push(index);
+                });
+                $(".content_block").each(function(index){
+                    console.log(index)
+                    if (count_box[count_box.length - 1] == index) {
+                        $(this).find("p input").val(index + 1);
+                    }
+                });
+
+                $(".select_box").each(function(){
+                    $(this).find("select").change(function(){
+                        var value = $(this).val();
+                        console.log(value)
+                        $(this).parents(".select_box").next("p").find("input").val(value);
+                    });
+                });
+
+            });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -28,6 +28,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="main_nav">
                 <div class="nav_type">
+                    <div class="top_logo">
+                        <a href="{% url 'apps:top' %}">
+                            <img src="{% static 'img/top_logo.png' %}" alt="">
+                        </a>
+                    </div>
                     <ul class="navbar-nav">
                         <li class="nav-item active">
                             <a href="{% url 'apps:top' %}">
@@ -35,8 +40,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#">
-                                ALL TAG
+                            <a href="{% url 'apps:all_tags' %}">
+                                TAGS
                             </a>
                         </li>
                         <li class="nav-item">
@@ -46,9 +51,17 @@
                         </li>
                     </ul>
                 </div>
-                <div class="search_box">
-                    <input type="text" name="search" class="search_text" placeholder="あさたいブログ＠">
-                    <input type="submit" class="submit_button" value="検索">
+                <div class="search_box{% if user.is_authenticated %} login_user{% endif %}">
+                    <form action="{% url 'apps:search' %}" method="POST">
+                        <input type="text" name="search" class="search_text" placeholder="あさたいブログ＠">
+                        <input type="submit" class="submit_button" value="検索">
+                        {% csrf_token %}
+                    </form>
+                    {% if user.is_authenticated %}
+                        <div class="login_icon">
+                            <span>ログイン中</span>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -66,7 +79,146 @@
         </header> -->
         <div class="main_blog_box">
             <div class="blog_article">
-                    {% block content %}{% endblock %}
+                <div class="article_block">
+                    <div class="blog_title_top_box">
+                        <div class="blog_title container">
+                            <p>あさたいブログ＠</p>
+                            <div class="blog_sub_comments">
+                                <span>[ひとこと]</span>
+                                <p>どうも、あさたいです。新しく自分の記録用ブログを設けました。<br>プログラミング関連の記事を掲載していきます。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article_view_all">
+
+                        {% if info %}
+                            <p>
+                                <a href="{% url 'apps:top' %}">記事一覧</a> /
+                                {% for y in category_table %}
+                                    {% if info.category == y.id %}
+                                        <a href="{% url 'apps:category' y.id %}">{{y.name}}</a> /
+                                    {% endif %}
+                                {% endfor %}
+                                <span>{{info.title}}</span>
+                            </p>
+                        {% elif category_id %}
+                            <p>
+                                <a href="{% url 'apps:top' %}">記事一覧</a> /
+                                {% for y in category_table %}
+                                    {% for x in table %}
+                                        {% if x.category == y.id %}
+                                            <a href="{% url 'apps:category' y.id %}">{{y.name}}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </p>
+                        {% elif tags_id %}
+                            <p>
+                                <a href="{% url 'apps:top' %}">記事一覧</a> /
+                                {% for y in tags %}
+                                    {% if info.tags == y.id %}
+                                        <a href="{% url 'apps:category' y.id %}">{{y.name}}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                        {% elif all_tags %}
+                            <p>
+                                <a href="{% url 'apps:top' %}">記事一覧</a> / タグ一覧
+                            </p>
+                        {% else %}
+                            <a href="#"><p>記事一覧</p></a>
+                        {% endif %}
+
+                    </div>
+                    <div class="artcle_content_block">
+                        {% block content %}{% endblock %}
+                        <div class="sub_window">
+                            <div class="sub_window_tab">
+                                <div class="card bg-light mb-3">
+                                    <div class="card-header badge-secondary">
+                                        <span class="sub_card_title">ALL Category</span>
+                                    </div>
+                                    <div class="card-body menu_tabs">
+                                        <ul class="list-group">
+                                            {% for y in category_table %}
+                                                <li class="list-group-item">
+                                                    <a href="{% url 'apps:category' y.id %}">
+                                                        {{y.name}}
+                                                    </a>
+                                                    <div class="count">
+                                                        {% for k, v in count_category_tag.items %}
+                                                            {% if k == y.name %}
+                                                                <span class="count_text">{{v}}</span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sub_window_tab">
+                                <div class="card bg-light mb-3">
+                                    <div class="card-header badge-secondary">
+                                        <span class="sub_card_title">TAG</span>
+                                    </div>
+                                    <div class="card-body menu_tabs">
+                                        <ul class="list-group">
+                                            {% for y in tags %}
+                                                <li class="list-group-item">
+                                                    <a href="{% url 'apps:tags' y.id %}">
+                                                        {{y.name}}
+                                                    </a>
+                                                    <div class="count">
+                                                        {% for k, v in count_tag.items %}
+                                                            {% if k == y.name %}
+                                                                <span class="count_text">{{v}}</span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sub_window_tab">
+                                <div class="card bg-light mb-3">
+                                    <div class="card-header badge-secondary">
+                                        <span class="sub_card_title">LINK</span>
+                                    </div>
+                                    <div class="card-body menu_tabs">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <a href="https://github.com/Asatai95/blog">
+                                                    GitHub
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom_article_tile_link">
+                        <aside>
+                            <div class="list-group my-5 col-12">
+                                <ul>
+                                    <li class="list-group-item text-white bg-dark">
+                                        過去1週間の記事
+                                    </li>
+                                    <li class="article_text_link">
+                                        <a href="#">flutterの導入</a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </aside>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="page_top">
@@ -88,6 +240,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
   {% block extrajs %}{% endblock %}
+
+  <script>
+      $(function(){
+          var link = location.protocol+"//"+location.host;
+          $("head").append(
+              '<link rel="shortcut icon" href="'+link+'{% static "img/blog_icon.png" %}">'
+          );
+      });
+  </script>
+
 
   <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 

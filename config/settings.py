@@ -10,6 +10,10 @@ from django.db import models
 
 from django.db.backends.mysql.base import DatabaseWrapper
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 PROJECT_NAME = os.path.basename(BASE_DIR)
@@ -25,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mysite.apps.WebappConfig',
     'config',
+    "mysite.templatetags",
 ]
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 # SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
@@ -53,7 +58,7 @@ MIDDLEWARE = [
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # sessionの有効期限更新月は変更するかも
 SESSION_COOKIE_AGE = 3600 * 24 * 30 * 365 #1年単位
-SESSION_COOKIE_NAME = "roomii"
+SESSION_COOKIE_NAME = "asablog"
 SESSION_SAVE_EVERY_REQUEST = True
 # パスワード再設定リンクの有効期限
 PASSWORD_RESET_TIMEOUT_DAYS = 1
@@ -71,6 +76,7 @@ TEMPLATES = [
                     'django.contrib.auth.context_processors.auth',
                     'django.contrib.messages.context_processors.messages',
                     'django.template.context_processors.static',
+                    "mysite.templatetags.context_processors.common",
                 ],
             },
         },
@@ -135,6 +141,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'mysite.User'
+
+
+cloudinary.config(
+    cloud_name = 'db5nsevmi',
+    api_key = '881246414241688',
+    api_secret = 'Z_eIAX_pTKF5JHFxl2KrOoWqLz8'
+)
 
 # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 SESSION_SAVE_EVERY_REQUEST = True

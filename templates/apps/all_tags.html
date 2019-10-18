@@ -1,0 +1,25 @@
+{% extends 'apps/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="box_management">
+    <div class="card mb-3 main_blog all_tags">
+        {% for x in tags %}
+            <div class="row no-gutters">
+                <p>
+                    <a href="{% url 'apps:tags' x.id %}">
+                        {{x.name}}
+                        {% for key, value in count_tag.items %}
+                            {% if key == x.name %}
+                                ( {{value}} )
+                            {% endif %}
+                        {% endfor %}
+                    </a>
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
