@@ -638,10 +638,25 @@ nav.bg-dark {
 }
 
 .card-text.sub_info.topic.input_form {
-    height: 85px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    margin: 15px auto!important;
+}
+
+.card-text.sub_info.topic.input_form input {
+    margin-bottom: 5px;
+}
+
+.select_box.title_box img {
+    width: 25px;
+    height: 25px;
+    margin: auto 5px;
+    cursor: pointer;
+}
+
+.select_box.title_box img:hover {
+    transform: scale(1.1);
 }
 
 .select_box.title_box span {
@@ -660,6 +675,8 @@ nav.bg-dark {
 }
 
 .main_article_contents.input_form textarea{
+    font-weight: 800;
+    letter-spacing: 1px;
     resize: none;
 }
 
@@ -716,6 +733,84 @@ nav.bg-dark {
     width: 15%;
     border: none;
     text-align: center;
+}
+
+.main_article_contents .textarea_box {
+    position: relative;
+}
+
+.main_article_contents .textarea_box .add_something_area {
+    position: absolute;
+    bottom: -35px;
+    right: 30px;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+}
+
+.main_article_contents .textarea_box .add_something_area .button_area {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.main_article_contents .textarea_box .add_something_area div span {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.main_article_contents .textarea_box .add_something_area .add_link,
+.main_article_contents .textarea_box .add_something_area .strong_text {
+    border: none;
+    border-radius: 30px;
+    background: #e9ecef;
+    color: #0066c0;
+    width: 80px;
+    height: 30px;
+    font-weight: 800;
+    box-shadow: 0 1px 2px;
+    cursor: pointer;
+    outline: none;
+}
+
+.main_article_contents .textarea_box .add_something_area .button_area button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 5px #e9ecef;
+}
+
+.card-footer div.tmp_file_box{
+    margin-bottom: 10px;
+}
+
+.card-footer div p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.card-footer div input {
+    margin-bottom: 5px;
+}
+
+.card-footer div p img {
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.card-footer div p img:hover {
+    transform: scale(1.1);
+}
+
+.img_pre {
+    display: none;
+}
+
+.error_message {
+    display: none;
 }
 
 /* トップへのアイコン */

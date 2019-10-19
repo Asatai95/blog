@@ -79,19 +79,54 @@ from cloudinary.forms import cl_init_js_callbacks
 
 from collections import Counter, defaultdict
 
+"""
+グローバル
+"""
+def TagstableInfo(self , tags_table):
+    tmp_tag = []
+    if tags_table.first():
+        for x in tags_table:
+            for y in Article.objects.all():
+                if x.id == y.tags:
+                    tmp_tag.append(x.name)
+        count_tag = dict(Counter(tmp_tag))
+    else:
+        count_tag = None
+
+    return count_tag
+
+def CategorytableInfo(self, category_table):
+    tmp_category = []
+    if category_table.first():
+        for x in category_table:
+            for y in Article.objects.all():
+                if x.id == y.category:
+                    tmp_category.append(x.name)
+        count_category_tag = dict(Counter(tmp_category))
+    else:
+        count_category_tag = None
+
+    return count_category_tag
+
+"""
+ログイン機能
+"""
 class Login(LoginView):
 
     form_class = LoginForm
     template_name = 'register/login.html'
 
-    # def get(self, request, *args, **kwargs):
-    #     return render(request, self.template_name, {"form": self.form_class})
-
+"""
+ログアウト機能
+"""
 class Logout(LoginRequiredMixin, LogoutView):
 
     def get(self, request, *args, **kwargs):
         return redirect("apps:logout")
 
+"""
+トップ画面
+"""
 class MainView(generic.ListView):
     template_name = "apps/index.html"
     model = Article
@@ -110,32 +145,16 @@ class MainView(generic.ListView):
             else:
                 y.update({"day": date.days})
         tags = TagsInfo.objects.all()
-        tmp_tag = []
-        if tags.first():
-            for x in tags:
-                for y in table:
-                    if x.id == y.tags:
-                        tmp_tag.append(x.name)
-            count_tag = Counter(tmp_tag)
-            for k, v in count_tag.items():
-                count_tag[k] = str(v)
-            count_tag = dict(count_tag)
-        else:
-            count_tag = None
+        count_tag = TagstableInfo(self, tags)
 
         category_table = CategoryInfo.objects.all()
-        tmp_category = []
-        if category_table.first():
-            for x in category_table:
-                for y in table:
-                    if x.id == y.category:
-                        tmp_category.append(x.name)
-            count_category_tag = dict(Counter(tmp_category))
-        else:
-            count_category_tag = None
+        count_category_tag = CategorytableInfo(self, category_table)
 
         return render(self.request, self.template_name, {"table": table, "date": tmp_date, "tags": tags, "count_tag": count_tag, "category_table": category_table, "count_category_tag": count_category_tag})
 
+"""
+記事詳細
+"""
 class ArticleInfo(generic.DetailView):
     template_name = "apps/info.html"
     model = Article
@@ -143,8 +162,6 @@ class ArticleInfo(generic.DetailView):
     def get(self, request, *args, **kwargs):
 
         pk = self.kwargs.get("pk")
-        print("pk")
-        print(pk)
         try:
             table = self.model.objects.get(pk = pk)
         except:
@@ -173,29 +190,17 @@ class ArticleInfo(generic.DetailView):
         references = References.objects.filter(article_id = table.id)
 
         tags = TagsInfo.objects.all()
-        tmp_tag = []
-        if tags.first():
-            for x in tags:
-                if x.id == table.tags:
-                    tmp_tag.append(x.name)
-            count_tag = dict(Counter(tmp_tag))
-        else:
-            count_tag = None
+        count_tag = TagstableInfo(self, tags)
 
         category_table = CategoryInfo.objects.all()
-        tmp_category = []
-        if category_table.first():
-            for x in category_table:
-                for y in self.model.objects.all():
-                    if x.id == y.category:
-                        tmp_category.append(x.name)
-            count_category_tag = dict(Counter(tmp_category))
-        else:
-            count_category_tag = None
+        count_category_tag = CategorytableInfo(self, category_table)
 
         return render(request, self.template_name, {"info": table, "date": tmp_date, "content": content, "content_id": content_id, "category_table": category_table,
                                                     "references": references, "tags": tags, "count_tag": count_tag, "count_category_tag": count_category_tag} )
 
+"""
+検索機能
+"""
 class Search(generic.ListView):
     template_name = "apps/index.html"
     model = Article
@@ -222,30 +227,17 @@ class Search(generic.ListView):
                 y.update({"day": date.days})
 
         tags = TagsInfo.objects.all()
-        tmp_tag = []
-        if tags.first():
-            for x in tags:
-                for y in self.model.objects.all():
-                    if x.id == y.tags:
-                        tmp_tag.append(x.name)
-            count_tag = dict(Counter(tmp_tag))
-        else:
-            count_tag = None
+        count_tag = TagstableInfo(self, tags)
 
         category_table = CategoryInfo.objects.all()
-        tmp_category = []
-        if category_table.first():
-            for x in category_table:
-                for y in self.model.objects.all():
-                    if x.id == y.category:
-                        tmp_category.append(x.name)
-            count_category_tag = dict(Counter(tmp_category))
-        else:
-            count_category_tag = None
+        count_category_tag = CategorytableInfo(self, category_table)
 
         return render(self.request, self.template_name, {"table": table, "date": tmp_date, "tags": tags, "count_tag": count_tag,
                                                          "category_table": category_table, "count_category_tag": count_category_tag})
 
+"""
+カテゴリー検索（表示画面のレイアウトはトップ画面と一緒）
+"""
 class Category(generic.ListView):
     template_name = "apps/index.html"
     model = Article
@@ -270,33 +262,16 @@ class Category(generic.ListView):
                 y.update({"day": date.days})
 
         tags = TagsInfo.objects.all()
-        tmp_tag = []
-        if tags.first():
-            for x in tags:
-                for y in self.model.objects.all():
-                    if x.id == y.tags:
-                        tmp_tag.append(x.name)
-            count_tag = Counter(tmp_tag)
-            for k, v in count_tag.items():
-                count_tag[k] = str(v)
-            count_tag = dict(count_tag)
-        else:
-            count_tag = None
+        count_tag = TagstableInfo(self, tags)
 
         category_table = CategoryInfo.objects.all()
-        tmp_category = []
-        if category_table.first():
-            for x in category_table:
-                for y in self.model.objects.all():
-                    if x.id == y.category:
-                        tmp_category.append(x.name)
-            count_category_tag = dict(Counter(tmp_category))
-        else:
-            count_category_tag = None
+        count_category_tag = CategorytableInfo(self, category_table)
 
         return render(self.request, self.template_name, {"table": table, "date": tmp_date, "tags": tags, "count_tag": count_tag, "category_id": id,
                                                          "category_table": category_table, "count_category_tag": count_category_tag})
-
+"""
+登録中のタグ情報を表示
+"""
 class ALLTags(generic.ListView):
     template_name = "apps/all_tags.html"
     model = Article
@@ -319,29 +294,17 @@ class ALLTags(generic.ListView):
                 y.update({"day": date.days})
 
         tags = TagsInfo.objects.all()
-        tmp_tag = []
-        if tags.first():
-            for x in tags:
-                for y in table:
-                    if x.id == y.tags:
-                        tmp_tag.append(x.name)
-            count_tag = dict(Counter(tmp_tag))
-        else:
-            count_tag = None
+        count_tag = TagstableInfo(self, tags)
+
         category_table = CategoryInfo.objects.all()
-        tmp_category = []
-        if category_table.first():
-            for x in category_table:
-                for y in self.model.objects.all():
-                    if x.id == y.category:
-                        tmp_category.append(x.name)
-            count_category_tag = dict(Counter(tmp_category))
-        else:
-            count_category_tag = None
+        count_category_tag = CategorytableInfo(self, category_table)
 
         return render(self.request, self.template_name, {"table": table, "date": tmp_date, "tags": tags, "count_tag": count_tag, "all_tags": "all_tags",
                                                          "category_table": category_table, "count_category_tag": count_category_tag})
 
+"""
+タグ検索（表示画面のレイアウトはトップ画面と一緒）
+"""
 class Tags(generic.ListView):
     template_name = "apps/index.html"
     model = Article
@@ -365,30 +328,17 @@ class Tags(generic.ListView):
                 y.update({"day": date.days})
 
         tags = TagsInfo.objects.all()
-        tmp_tag = []
-        if tags.first():
-            for x in tags:
-                for y in self.model.objects.all():
-                    if x.id == y.tags:
-                        tmp_tag.append(x.name)
-            count_tag = dict(Counter(tmp_tag))
-        else:
-            count_tag = None
+        count_tag = TagstableInfo(self, tags)
 
         category_table = CategoryInfo.objects.all()
-        tmp_category = []
-        if category_table.first():
-            for x in category_table:
-                for y in self.model.objects.all():
-                    if x.id == y.category:
-                        tmp_category.append(x.name)
-            count_category_tag = dict(Counter(tmp_category))
-        else:
-            count_category_tag = None
+        count_category_tag = CategorytableInfo(self, category_table)
 
         return render(self.request, self.template_name, {"table": table, "date": tmp_date, "tags": tags, "count_tag": count_tag, "tags_id": id,
                                                          "category_table": category_table, "count_category_tag": count_category_tag})
 
+"""
+記事情報入力画面
+"""
 class ArticleCreate(generic.FormView):
     template_name = "register/insert.html"
     model = Article
@@ -397,11 +347,74 @@ class ArticleCreate(generic.FormView):
     def get(self, request, *args, **kwargs):
 
         tags_table = TagsInfo.objects.all()
+        count_tag = TagstableInfo(self, tags_table)
+
         category_table = CategoryInfo.objects.all()
+        count_category_tag = CategorytableInfo(self, category_table)
+
         content = Content.objects.all()
 
-        return render(self.request, self.template_name, {"form": self.form_class, "tags": tags_table, "category_table": category_table, "content": content})
+        return render(self.request, self.template_name, {"form": self.form_class, "tags": tags_table, "category_table": category_table, "content": content,
+                                                         "count_category_tag": count_category_tag, "count_tag": count_tag})
 
     def form_valid(self, form):
 
         return render(self.request, self.template_name, {"form": form})
+
+"""
+記事情報入力確認画面
+"""
+class ArticleConfirm(generic.FormView):
+
+    template_name = "register/confirm.html"
+    model = Article
+    form_class = InputForm
+
+    def form_valid(self, form):
+
+        category = self.request.POST.getlist("category")
+        print(category)
+        tags = self.request.POST.getlist("tags")
+        print(tags)
+
+        block = self.request.POST.getlist("block")
+        block_count = len(block) - 1
+        sub_title = self.request.POST.getlist("sub_title")
+        content = self.request.POST.getlist("content")
+        image = self.request.POST.getlist("file")
+        tmp_file = self.request.POST.getlist("tmp_file")
+        url = self.request.POST.getlist("url")
+
+        tmp_block = []
+        for x in range(0, block_count):
+            tmp_block.append({
+                "block": 1, "sub_title": sub_title[x], "content": content[x], "image": image[x]
+            })
+        print(tmp_block)
+
+        return render(self.request, self.template_name, {"form": form, "tmp_block": tmp_block, "url": url, "tmp_file": tmp_file, "category": category, "tags": tags})
+
+
+    def form_invalid(self, form):
+
+        category = self.request.POST.getlist("category")
+        print(category)
+        tags = self.request.POST.getlist("tags")
+        print(tags)
+
+        block = self.request.POST.getlist("block")
+        block_count = len(block) - 1
+        sub_title = self.request.POST.getlist("sub_title")
+        content = self.request.POST.getlist("content")
+        image = self.request.POST.getlist("file")
+        tmp_file = self.request.POST.getlist("tmp_file")
+        url = self.request.POST.getlist("url")
+
+        tmp_block = []
+        for x in range(0, block_count):
+            tmp_block.append({
+                "block": 1, "sub_title": sub_title[x], "content": content[x], "image": image[x]
+            })
+        print(tmp_block)
+
+        return render(self.request, self.template_name, {"form": form, "tmp_block": tmp_block, "url": url, "tmp_file": tmp_file, "category": category, "tags": tags})

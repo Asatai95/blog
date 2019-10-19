@@ -1,7 +1,17 @@
 {% extends 'apps/base.html' %}
 {% load static %}
 {% block content %}
-
+<div class="progress_main_box create_form_progress">
+    <div class="loading_icon">
+    </div>
+    <img src="{% static 'img/oval.svg' %}" alt="">
+    <div class="loading_title">
+        <p>Loading<span class="loop_dot">...</span></p>
+    </div>
+    <div class="progress_bar">
+        <p class="bar"><span></span></p>
+    </div>
+</div>
 <div class="card mb-3 main_blog info">
     <div class="error_field">
         {{ form.non_field_errors }}
@@ -15,7 +25,7 @@
             <div class="col main_box">
                 <div class="card-body">
                     <div class="contents_sub_title input_form">
-                        <div class="select_box title_box">
+                        <div class="select_box title_box category_div">
                             <span class="icon">カテゴリー</span>
                             <select id="category_select">
                                 <option value="">選択してください</option>
@@ -23,11 +33,12 @@
                                     <option value="{{x.name}}">{{x.name}}</option>
                                 {% endfor %}
                             </select>
+                            <img src="{% static 'img/add.png' %}" alt="">
                         </div>
                         <p class="card-text sub_info topic input_form">
                             {{form.category}}
                         </p>
-                        <div class="select_box title_box">
+                        <div class="select_box title_box tags_div">
                             <span class="icon">タグ</span>
                             <select id="tags_select">
                                 <option value="">選択してください</option>
@@ -35,6 +46,7 @@
                                     <option value="{{x.name}}">{{x.name}}</option>
                                 {% endfor %}
                             </select>
+                            <img src="{% static 'img/add.png' %}" alt="">
                         </div>
                         <p class="card-text sub_info topic input_form">
                             {{form.tags}}
@@ -65,13 +77,27 @@
                             <div class="select_box title_box">
                                 <span class="icon">コンテンツ</span>
                             </div>
-                            {{form.content}}
+                            <div class="textarea_box">
+                                {{form.content}}
+                                <div class="add_something_area">
+                                    <div>
+                                        <span>投稿に要素追加</span>
+                                    </div>
+                                    <div class="button_area">
+                                        <button type="button" class="add_link">リンク</button>
+                                        <button type="button" class="strong_text">強調</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="image_block input_form">
                             <div class="select_box title_box">
                                 <span class="icon">画像</span>
+                                <span class="error_message">画像追加中にエラーが発生しました</span>
                             </div>
                             {{form.img}}
+                            <div class="img_pre">
+                            </div>
                         </div>
                     </div>
                     <div class="more_information">
@@ -84,12 +110,18 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div>
-                        <p>添付ファイル</p>
+                    <div class="tmp_file_box">
+                        <p>
+                            添付ファイル
+                            <img src="{% static 'img/add.png' %}" alt="">
+                        </p>
                         {{form.tmp_file}}
                     </div>
-                    <div>
-                        <p>関連記事</p>
+                    <div class="url_box">
+                        <p>
+                            関連記事
+                            <img src="{% static 'img/add.png' %}" alt="">
+                        </p>
                         {{form.url}}
                     </div>
                 </div>
@@ -97,52 +129,5 @@
         </div>
     </div>
 </div>
-
-{% endblock %}
-
-
-{% block extrajs %}
-
-<script>
-    $(function(){
-        $(".select_box").each(function(){
-            $(this).find("select").change(function(){
-                var value = $(this).val();
-                console.log(value)
-                $(this).parents(".select_box").next("p").find("input").val(value);
-            });
-        });
-        $(".main_article_info_block").each(function(){
-            var content = $(this).html();
-            $(".more_information p a").on("click", function(e){
-                e.preventDefault();
-                $(".main_article_info_block .more_information").remove();
-                $(".main_article_info_block").append(
-                    content
-                );
-
-                var count_box = [];
-                $(".content_block").each(function(index){
-                    count_box.push(index);
-                });
-                $(".content_block").each(function(index){
-                    console.log(index)
-                    if (count_box[count_box.length - 1] == index) {
-                        $(this).find("p input").val(index + 1);
-                    }
-                });
-
-                $(".select_box").each(function(){
-                    $(this).find("select").change(function(){
-                        var value = $(this).val();
-                        console.log(value)
-                        $(this).parents(".select_box").next("p").find("input").val(value);
-                    });
-                });
-
-            });
-        });
-    });
-</script>
 
 {% endblock %}
