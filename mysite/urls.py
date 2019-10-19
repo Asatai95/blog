@@ -25,7 +25,7 @@ urlpatterns = [
     # 管理者用のURL
     path('manage/article/create/', login_required(views.ArticleCreate.as_view()), name='create'),
     path('article/create/confirm/', views.ArticleConfirm.as_view(), name='confirm'),
-    # path('article/create/done/', views.ArticleDone.as_view(), name='done'),
+    path('article/create/done/', views.ArticleDone.as_view(), name='done'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

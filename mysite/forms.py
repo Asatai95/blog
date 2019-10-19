@@ -82,6 +82,14 @@ class InputForm(forms.Form):
         label = "画像",
     )
 
+    sub_image = CloudinaryJsFileField(
+        label = "サムネイル",
+    )
+
+    pre_image = forms.CharField(
+           max_length=45,
+    )
+
     tmp_file = forms.FileField(
         label = "添付ファイル",
     )
@@ -91,9 +99,12 @@ class InputForm(forms.Form):
     )
 
     class Meta:
-        fields = ("block", "title", "sub_title", "tags", "category", "content", "img", "tmp_file", "url",)
+        fields = ("block", "title", "sub_title", "tags", "category", "content", "img",
+                  "tmp_file", "url", "pre_image", "sub_image",)
 
     def __init__(self, *args, **kwargs):
         super(InputForm, self).__init__(*args, **kwargs)
+        self.fields['pre_image'].widget.attrs['readonly'] = True
         for field in self.fields.values():
+            field.required = False
             field.widget.attrs['class'] = 'form-control'

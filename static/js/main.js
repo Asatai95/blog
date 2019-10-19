@@ -125,46 +125,96 @@ $(function(){
                     $(this).find("p input").val(index + 1);
                 }
             });
+
+            $(document).ready(function(){
+                $(".cloudinary-fileupload").each(function(){
+                    $(this).change(function(){
+                        $(".progress_main_box").css("display", "flex");
+                    });
+                    $(this).cloudinary_fileupload({
+                        replaceFileInput: false,
+                        autoUpload: false,
+                        maxFileSize: 10000000,
+                        loadImageMaxFileSize: 10000000,
+                        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+                    })
+                    .bind('fileuploadadd', function(e, data) {
+                        var file = data.files[0].name;
+                        var array = [".gif", ".png", ".jpg", ".jpeg"];
+                        var count = 0;
+                        for (var i = 0; i < array.length; i++) {
+                            if (file.indexOf(array[i]) > -1) {count += 1}
+                        }
+
+                        upload = data.submit();
+                        if (count === 0){
+                            upload.abort();
+                            upload = null;
+                        }
+                    })
+                    .bind("fileuploadfail", function(e, data){
+                        $(".progress_main_box").fadeOut();
+                        $(this).parents(".image_block").find(".select_box .error_message").show();
+                    })
+                    .bind('cloudinaryprogressall', function(e, data) {
+                        $('.progress_main_box .progress_bar .bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
+                    })
+                    .bind('cloudinarydone', function(e, data) {
+                        $(".progress_main_box").fadeOut();
+                        $(this).next("input").val(data.result.public_id);
+                        var img_link = "https://res.cloudinary.com/db5nsevmi/" + data.result.public_id;
+                        $(this).parents(".image_block").find(".img_pre").append(
+                            '<img src="'+img_link+'" alt="">'
+                        )
+                        $(this).parents(".image_block").find(".img_pre").fadeIn(800);
+                    });
+                });
+            });
         });
     });
 
-    $(document).ready(function() {
+    $(document).ready(function(){
+        $(".cloudinary-fileupload").each(function(){
+            $(this).change(function(){
+                $(".progress_main_box").css("display", "flex");
+            });
+            $(this).cloudinary_fileupload({
+                replaceFileInput: false,
+                autoUpload: false,
+                maxFileSize: 10000000,
+                loadImageMaxFileSize: 10000000,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+            })
+            .bind('fileuploadadd', function(e, data) {
+                var file = data.files[0].name;
+                var array = [".gif", ".png", ".jpg", ".jpeg"];
+                var count = 0;
+                for (var i = 0; i < array.length; i++) {
+                    if (file.indexOf(array[i]) > -1) {count += 1}
+                }
 
-        $(".cloudinary-fileupload").cloudinary_fileupload({
-          replaceFileInput: false,
-          autoUpload: false,
-          maxFileSize: 10000000,
-          loadImageMaxFileSize: 10000000,
-          acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
-        })
-        .bind('fileuploadadd', function(e, data) {
-          console.log(data)
-          var file = data.files[0].name;
-          var array = [".gif", ".png", ".jpg", ".jpeg"];
-          var count = 0;
-          for (var i = 0; i < array.length; i++) {
-            if (file.indexOf(array[i]) > -1) {count += 1}
-          }
-
-          upload = data.submit();
-          if (count === 0){
-            upload.abort();
-            upload = null;
-          }
-        })
-        .bind("fileuploadfail", function(e, data){
-          $(".progress_main_box").fadeOut();
-          $(this).parents(".image_block").find(".select_box .error_message").show();
-        })
-        .bind('cloudinaryprogressall', function(e, data) {
-          $('.progress_bar .bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
-        })
-        .bind('cloudinarydone', function(e, data) {
-          console.log(data.result.public_id)
-          var img_link = "https://res.cloudinary.com/db5nsevmi/" + data.result.public_id;
-          $(this).parents(".select_box").find(".image_pre").append(
-              '<img src="'+img_link+'" alt="">'
-          )
+                upload = data.submit();
+                if (count === 0){
+                    upload.abort();
+                    upload = null;
+                }
+            })
+            .bind("fileuploadfail", function(e, data){
+                $(".progress_main_box").fadeOut();
+                $(this).parents(".image_block").find(".select_box .error_message").show();
+            })
+            .bind('cloudinaryprogressall', function(e, data) {
+                $('.progress_main_box .progress_bar .bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
+            })
+            .bind('cloudinarydone', function(e, data) {
+                $(".progress_main_box").fadeOut();
+                $(this).next("input").val(data.result.public_id);
+                var img_link = "https://res.cloudinary.com/db5nsevmi/" + data.result.public_id;
+                $(this).parents(".image_block").find(".img_pre").append(
+                    '<img src="'+img_link+'" alt="">'
+                )
+                $(this).parents(".image_block").find(".img_pre").fadeIn(800);
+            });
         });
     });
 
@@ -199,11 +249,8 @@ $(function(){
     });
 
     var tmp_file_inputbox = $(".card-footer div.tmp_file_box").html();
-    console.log(tmp_file_inputbox)
 
     $(".card-footer div.tmp_file_box p img").on("click", function(){
-        console.log("click")
-        console.log(tmp_file_inputbox)
         $(this).parents("div.tmp_file_box").append(tmp_file_inputbox);
         $(this).parents("div.tmp_file_box").find("p").each(function(index){
             if(index != 0) {

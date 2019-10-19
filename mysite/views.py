@@ -359,7 +359,36 @@ class ArticleCreate(generic.FormView):
 
     def form_valid(self, form):
 
-        return render(self.request, self.template_name, {"form": form})
+        category = self.request.POST.getlist("category")
+        tags = self.request.POST.getlist("tags")
+        block = self.request.POST.getlist("block")
+        block_count = len(block)
+        sub_title = self.request.POST.getlist("sub_title")
+        content = self.request.POST.getlist("content")
+        image = self.request.POST.getlist("pre_image")
+        tmp_file = self.request.POST.getlist("tmp_file")
+        url = self.request.POST.getlist("url")
+
+        tags_table = TagsInfo.objects.all()
+        count_tag = TagstableInfo(self, tags_table)
+
+        category_table = CategoryInfo.objects.all()
+        count_category_tag = CategorytableInfo(self, category_table)
+
+        tmp_block = []
+        for x in range(0, block_count):
+            try:
+                tmp_block.append({
+                    "block": block[x], "sub_title": sub_title[x], "content": content[x], "image": image[x]
+                })
+            except:
+                pass
+        for x in tmp_block:
+            for y in block:
+                if y == x["block"]:
+                    print(x)
+        return render(self.request, self.template_name, {"form": form, "block_id": block , "tmp_block": tmp_block, "url": url, "count_tag": count_tag, "category_table": category_table,
+                                                         "tmp_file": tmp_file, "category": category, "tags_form": tags, "tags":tags_table, "count_category_tag": count_category_tag})
 
 """
 記事情報入力確認画面
@@ -373,48 +402,82 @@ class ArticleConfirm(generic.FormView):
     def form_valid(self, form):
 
         category = self.request.POST.getlist("category")
-        print(category)
         tags = self.request.POST.getlist("tags")
-        print(tags)
-
         block = self.request.POST.getlist("block")
-        block_count = len(block) - 1
+        block_count = len(block)
         sub_title = self.request.POST.getlist("sub_title")
         content = self.request.POST.getlist("content")
-        image = self.request.POST.getlist("file")
+        image = self.request.POST.getlist("pre_image")
         tmp_file = self.request.POST.getlist("tmp_file")
         url = self.request.POST.getlist("url")
 
+        tags_table = TagsInfo.objects.all()
+        count_tag = TagstableInfo(self, tags_table)
+
+        category_table = CategoryInfo.objects.all()
+        count_category_tag = CategorytableInfo(self, category_table)
+
         tmp_block = []
         for x in range(0, block_count):
-            tmp_block.append({
-                "block": 1, "sub_title": sub_title[x], "content": content[x], "image": image[x]
-            })
+            try:
+                tmp_block.append({
+                    "block": block[x], "sub_title": sub_title[x], "content": content[x], "image": image[x]
+                })
+            except:
+                pass
         print(tmp_block)
-
-        return render(self.request, self.template_name, {"form": form, "tmp_block": tmp_block, "url": url, "tmp_file": tmp_file, "category": category, "tags": tags})
+        for x in tmp_block:
+            for y in block:
+                if y == x["block"]:
+                    print(x)
+        return render(self.request, self.template_name, {"form": form, "block_id": block , "tmp_block": tmp_block, "url": url, "count_tag": count_tag, "category_table": category_table,
+                                                         "tmp_file": tmp_file, "category": category, "tags_form": tags, "tags":tags_table, "count_category_tag": count_category_tag})
 
 
     def form_invalid(self, form):
 
         category = self.request.POST.getlist("category")
-        print(category)
         tags = self.request.POST.getlist("tags")
-        print(tags)
-
         block = self.request.POST.getlist("block")
-        block_count = len(block) - 1
+        block_count = len(block)
         sub_title = self.request.POST.getlist("sub_title")
         content = self.request.POST.getlist("content")
-        image = self.request.POST.getlist("file")
+        image = self.request.POST.getlist("pre_image")
         tmp_file = self.request.POST.getlist("tmp_file")
         url = self.request.POST.getlist("url")
 
+        tags_table = TagsInfo.objects.all()
+        count_tag = TagstableInfo(self, tags_table)
+
+        category_table = CategoryInfo.objects.all()
+        count_category_tag = CategorytableInfo(self, category_table)
+
         tmp_block = []
         for x in range(0, block_count):
-            tmp_block.append({
-                "block": 1, "sub_title": sub_title[x], "content": content[x], "image": image[x]
-            })
+            try:
+                tmp_block.append({
+                    "block": block[x], "sub_title": sub_title[x], "content": content[x], "image": image[x]
+                })
+            except:
+                pass
         print(tmp_block)
+        for x in tmp_block:
+            for y in block:
+                if y == x["block"]:
+                    print(x)
+        return render(self.request, self.template_name, {"form": form, "block_id": block , "tmp_block": tmp_block, "url": url, "count_tag": count_tag, "category_table": category_table,
+                                                         "tmp_file": tmp_file, "category": category, "tags_form": tags, "tags":tags_table, "count_category_tag": count_category_tag})
 
-        return render(self.request, self.template_name, {"form": form, "tmp_block": tmp_block, "url": url, "tmp_file": tmp_file, "category": category, "tags": tags})
+class ArticleDone(generic.FormView):
+    template_name = "register/confirm.html"
+    model = Article
+
+    def form_valid(self, form):
+
+        form = form.save(commit = False)
+
+        article_table = self.model.objects.create(
+            title = form.title,
+        )
+
+        return render(self.request, self.template_name)

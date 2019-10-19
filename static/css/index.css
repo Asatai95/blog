@@ -1,3 +1,9 @@
+body {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
 a {
     text-decoration: none;
 }
@@ -13,6 +19,105 @@ a:hover {
 input {
     font-size: 16px!important;
     font-weight: 800!important;
+}
+
+/* プログレスバー */
+.demo_main {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    background: rgb(0,0,0,.5);
+}
+
+.demo_main .demo_main_content {
+    height: 100%;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.demo_loading img {
+    width: 150px;
+    height: 150px;
+}
+
+.demo_loading p {
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
+    color: #fff;
+    margin: 10px auto;
+}
+
+.demo_main .demo_main_content #demo {
+    width: 600px;
+    height: 30px;
+}
+
+.demo_main .demo_main_content #demo svg {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+}
+
+.loop_dot span {
+    animation: pyon 0.3s linear;
+    position: relative;
+}
+
+@keyframes pyon {
+    0% {top: 0}
+    50% {top:-10px}
+    100%{top: 0}
+}
+
+/* 画像追加プログレスバー */
+.progress_main_box.create_form_progress {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: rgb(0,0,0,.6);
+}
+
+.progress_main_box.create_form_progress img {
+    width: 150px;
+    height: 150px;
+}
+
+.progress_main_box.create_form_progress .loading_title p {
+    font-size: 30px;
+    font-weight: 800;
+    color: #fff;
+    margin: 10px auto;
+}
+
+.progress_main_box.create_form_progress .progress_bar {
+    width: 600px;
+    height: 30px;
+}
+
+.progress_main_box.create_form_progress .progress_bar p {
+    width: 100%;
+    background: rgb(0, 195, 159);
+    height: 35px;
+    border-radius: 30px;
+    margin: auto;
 }
 
 /* エラータグ */
@@ -562,7 +667,7 @@ nav.bg-dark {
 }
 
 .main_article_contents {
-    margin: 20px auto;
+    margin: 25px auto;
 }
 
 .main_article_contents p {
@@ -633,6 +738,10 @@ nav.bg-dark {
     height: 100%;
 }
 
+.row form {
+    width : 100%;
+}
+
 .contents_sub_title.input_form {
     width: 100%;
 }
@@ -669,6 +778,17 @@ nav.bg-dark {
     margin: auto 10px;
 }
 
+.select_box.title_box.confirm {
+    margin : 10px auto;
+}
+
+.select_box.title_box.confirm span {
+    font-size: 16px;
+    font-weight: 800;
+    color: #6c757d;
+    background-color: #fff!important;
+}
+
 .select_box.title_box select {
     height: 35px;
     cursor: pointer;
@@ -686,6 +806,17 @@ nav.bg-dark {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+
+.image_block.input_form {
+    height: auto!important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.image_block.input_form input {
+    margin: 10px auto;
 }
 
 .main_article_contents.input_form {
@@ -805,12 +936,99 @@ nav.bg-dark {
     transform: scale(1.1);
 }
 
+.sub_title_block.input_form .select_box.title_box {
+    margin-bottom: 5px;
+}
+
 .img_pre {
     display: none;
+    text-align: center;
+}
+
+.img_pre img {
+    width: 200px;
+    height : 200px;
 }
 
 .error_message {
     display: none;
+}
+
+.input_button_area {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input_button_area input {
+    text-align: center;
+    width: 180px;
+    height: 35px;
+    border: none;
+    background: #e9ecef;
+    border-radius: 30px;
+    box-shadow: 0 1px 2px;
+    cursor: pointer;
+    outline: none;
+}
+
+.input_button_area input:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 5px #e9ecef;
+}
+
+#id_pre_image {
+    display: none;
+}
+
+/* 投稿確認画面 */
+
+.badge-secondary .title_text_confirm {
+    margin: 0;
+    font-weight: 800;
+}
+
+.input_button_area form .form_value_list {
+    display: none;
+}
+
+.content_block.confirm p {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.sub_title_block.confirm p {
+    font-size: 16px;
+    margin: 10px;
+}
+
+.main_article_contents.input_form.confirm {
+    overflow: auto;
+    justify-content: flex-start;
+}
+
+.main_article_contents.confirm .textarea_box {
+    margin: 10px;
+    height: 100%;
+    overflow: auto;
+}
+
+.main_article_contents.confirm .textarea_box p {
+    font-weight: 800;
+    word-break: break-all;
+}
+
+.img_pre.confirm {
+    display: block;
+}
+
+.input_button_area.confirm {
+    justify-content: space-around;
+}
+
+.input_button_area.confirm form {
+    width: auto;
 }
 
 /* トップへのアイコン */

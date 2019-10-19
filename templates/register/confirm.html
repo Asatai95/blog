@@ -1,0 +1,173 @@
+{% extends 'apps/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card mb-3 main_blog info">
+    <div class="error_field">
+        {{ form.non_field_errors }}
+    </div>
+    <div class="row no-gutters">
+
+        <div class="badge-secondary">
+            <p class="title_text_confirm">{{form.title.value}}</p>
+        </div>
+
+
+        <div class="card_comment_box info">
+            <div class="col main_box">
+                <div class="card-body">
+                    <div class="contents_sub_title input_form">
+                        <div class="select_box title_box category_div">
+                            <span class="icon">カテゴリー</span>
+                        </div>
+                        <div class="select_box title_box category_div confirm">
+                            {% for x in category %}
+                                <span>{{x}}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="select_box title_box tags_div">
+                            <span class="icon">タグ</span>
+                        </div>
+                        <div class="select_box title_box tags_div confirm">
+                        {% for x in tags_form %}
+                                <span>{{x}}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="main_article_info_block">
+                    {% for z in block_id %}
+                        {% for y in tmp_block %}
+                            {% if z == y.block %}
+                                <div class="article_info contents">
+                                    <div class="content_block confirm">
+                                        <p>
+                                            <span>ブロック</span>{{y.block}}
+                                        </p>
+                                    </div>
+                                    <div class="sub_title_block input_form confirm">
+                                        <div class="select_box title_box">
+                                            <span class="icon">サブタイトル</span>
+                                        </div>
+                                        <p>{{y.sub_title}}</p>
+                                    </div>
+                                    <div class="main_article_contents input_form confirm">
+                                        <div class="select_box title_box">
+                                            <span class="icon">コンテンツ</span>
+                                        </div>
+                                        <div class="textarea_box">
+                                            <p>{{y.content}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="image_block input_form confirm">
+                                        <div class="select_box title_box">
+                                            <span class="icon">画像</span>
+                                        </div>
+                                        {% if y.image != "" %}
+                                            <div class="img_pre confirm">
+                                                <img src="{{ctx_proc_value}}{{y.image}}" alt="">
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="input_button_area confirm">
+                    <form action="{% url 'apps:create' %}" method="POST">
+                        <input type="submit" class="input_button" value="戻る">
+                        <div class="form_value_list">
+                            {% for x in url %}
+                                <input type="hidden" value="{{x}}" name="url">
+                            {% endfor %}
+                            {% for x in tmp_file %}
+                                <input type="hidden" value="{{x}}" name="tmp_file">
+                            {% endfor %}
+                            {% for x in tmp_block %}
+                                {% if x.block %}
+                                    <input type="hidden" value="{{x.block}}" name="block">
+                                {% endif %}
+                                {% if x.sub_title %}
+                                    <input type="hidden" value="{{x.sub_title}}" name="sub_title">
+                                {% endif %}
+                                {% if x.content %}
+                                    <input type="hidden" value="{{x.content}}" name="content">
+                                {% endif %}
+                                {% if x.image %}
+                                    <input type="hidden" value="{{x.image}}" name="image">
+                                {% endif %}
+                            {% endfor %}
+                            {% for x in category %}
+                                <input type="hidden" value="{{x}}" name="category">
+                            {% endfor %}
+                            {% for x in tags_form %}
+                                <input type="hidden" value="{{x}}" name="tags">
+                            {% endfor %}
+                        </div>
+                    </form>
+                    <form action="{% url 'apps:done' %}" method="POST">
+                        <input type="submit" class="input_button" value="投稿">
+                        <div class="form_value_list">
+                            {% for x in url %}
+                                <input type="hidden" value="{{x}}" name="url">
+                            {% endfor %}
+                            {% for x in tmp_file %}
+                                <input type="hidden" value="{{x}}" name="tmp_file">
+                            {% endfor %}
+                            {% for x in tmp_block %}
+                                {% if x.block %}
+                                    <input type="hidden" value="{{x.block}}" name="block">
+                                {% endif %}
+                                {% if x.sub_title %}
+                                    <input type="hidden" value="{{x.sub_title}}" name="sub_title">
+                                {% endif %}
+                                {% if x.content %}
+                                    <input type="hidden" value="{{x.content}}" name="content">
+                                {% endif %}
+                                {% if x.image %}
+                                    <input type="hidden" value="{{x.image}}" name="image">
+                                {% endif %}
+                            {% endfor %}
+                            {% for x in category %}
+                                <input type="hidden" value="{{x}}" name="category">
+                            {% endfor %}
+                            {% for x in tags_form %}
+                                <input type="hidden" value="{{x}}" name="tags">
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="tmp_file_box">
+                        <p>
+                            添付ファイル
+                        </p>
+                        <div>
+                            <p>
+                                {% for x in tmp_file %}
+                                    <span>{{x}}</span>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="url_box">
+                        <p>
+                            関連記事
+                        </p>
+                        <div>
+                            <p>
+                                {% for x in url %}
+                                    <span>{{x}}</span>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
