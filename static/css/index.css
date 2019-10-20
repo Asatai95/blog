@@ -528,6 +528,10 @@ nav.bg-dark {
     padding-top: 20px;
 }
 
+.text_box_card.manager {
+    flex-direction: column;
+}
+
 .text_box_card a {
     text-decoration: none;
     outline: none;
@@ -545,9 +549,38 @@ nav.bg-dark {
     outline: none;
 }
 
-.text_box_card a button:hover {
+.text_box_card a button:hover,
+.text_box_card.manager .button_boxes form button:hover {
     transform: scale(1.1);
     background-color: rgb(211, 222, 241);
+}
+
+.text_box_card.manager .button_boxes {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 15px;
+    width: 100%;
+    border-top: 2px dashed rgb(211, 222, 241);
+    padding-top: 15px;
+}
+
+.text_box_card.manager .button_boxes a,
+.text_box_card.manager .button_boxes form {
+    width: 120px;
+}
+
+.text_box_card.manager .button_boxes a button,
+.text_box_card.manager .button_boxes form button {
+    width: 120px;
+    height: 35px;
+    font-size: 16px;
+    border-radius: 10px;
+    color: #222;
+    font-weight: 800;
+    border: 3px solid rgb(211, 222, 241);
+    cursor: pointer;
+    outline: none;
 }
 
 .card-body.menu_tabs {
