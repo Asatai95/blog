@@ -91,6 +91,15 @@ LOGIN_REDIRECT_URL = 'apps:top'
 LOGOUT_URL = 'apps:logout'
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'mysite.routing.application'
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+    },
+}
 # sys.path.append(os.getcwd())
 # ASGI_APPLICATION = 'mysite.routing.application'
 # if 'test' in sys.argv:
