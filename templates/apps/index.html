@@ -115,11 +115,13 @@
                                             </a>
                                             {% if x.delete_flag %}
                                                 <form action="{% url 'apps:delete' %}" method="POST">
+                                                    <input type="hidden" name="article_id" id="id" value="{{x.id}}">
                                                     <button type="button" class="delete_button">復活</button>
                                                     {% csrf_token %}
                                                 </form>
                                             {% else %}
                                                 <form action="{% url 'apps:recovery' %}" method="POST" class="form_article_delete">
+                                                    <input type="hidden" name="article_id" id="id" value="{{x.id}}">
                                                     <button type="button" class="delete_button">削除</button>
                                                     {% csrf_token %}
                                                 </form>
@@ -177,7 +179,31 @@
     });
 
     $(function(){
-        $()
+        $(".form_article_delete").each(function(){
+            $(this).submit(function(e){
+                console.log("click")
+                e.preventDefault();
+                $.ajax({
+                    'url': "{% url 'apps:delete' %}",
+                    'type': 'POST',
+                    'data': {
+                        'article_id': $(this).find('#id').val(),
+                    },
+                    'dataType': 'json',
+                }).done(function( reponse ) {
+                    if ("{{user.is_authenticated}}" == "False") {
+                        $(this).parents(".main_blog").remove();
+                    } else {
+                        $(this).parents(".main_blog").prepend(
+                            '<div class="delete_label">\
+                                <span>削除中</span>\
+                            </div>'
+                        );
+                    }
+                });
+                return false
+            });
+        });
     });
 
     $(function(){
