@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mysite.apps.WebappConfig',
-    'config',
+    # 'config',
     "mysite.templatetags",
 ]
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
