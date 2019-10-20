@@ -69,3 +69,19 @@
 
 
 {% endblock %}
+
+{% block extrajs %}
+
+<script>
+    $(function(){
+        if ( $(".messages").length) {
+            setTimeout(function(){
+                $('.messages').animate({"top": "-100px"}, 2000, 'linear', function() {
+                    $(".messages").fadeOut();
+                });
+            },3000);
+        }
+    });
+</script>
+
+{% endblock %}

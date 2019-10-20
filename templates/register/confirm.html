@@ -119,6 +119,7 @@
                     <form action="{% url 'apps:done' %}" method="POST">
                         <input type="submit" class="input_button" value="投稿">
                         <div class="form_value_list">
+                            <input type="hidden" value="{{form.title.value}}" name="title">
                             {% if form.sub_preimage.value %}
                                 <input type="hidden" value="{{form.sub_preimage.value}}" name="sub_image">
                             {% endif %}

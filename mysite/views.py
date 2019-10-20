@@ -412,8 +412,6 @@ class ArticleConfirm(generic.FormView):
             if x != "":
                 tmp_tags_list.append(x)
         tags = tmp_tags_list
-        sub_preimage = self.request.POST.get("sub_preimage")
-        print(sub_preimage)
         block = self.request.POST.getlist("block")
         block_count = len(block)
         sub_title = self.request.POST.getlist("sub_title")
@@ -472,15 +470,67 @@ class ArticleConfirm(generic.FormView):
                                                          "tmp_file": tmp_file, "category": category, "tags_form": tags, "tags":tags_table, "count_category_tag": count_category_tag})
 
 class ArticleDone(generic.FormView):
-    template_name = "register/confirm.html"
     model = Article
+    form_class = InputForm
 
     def form_valid(self, form):
 
-        form = form.save(commit = False)
+        block = self.request.POST.getlist("block")
+        category = self.request.POST.getlist("category")
+        for z in category:
+            if not CategoryInfo.objects.filter(name = z).first():
+                category_id = CategoryInfo.objects.create(
+                    name = z
+                )
+                category = category_id.id
+            else:
+                category = CategoryInfo.objects.filter(name = z).first().id
 
-        article_table = self.model.objects.create(
-            title = form.title,
+        tags = self.request.POST.getlist("tags")
+        for z in tags:
+            if not TagsInfo.objects.filter(name = z).first():
+                tags_id = TagsInfo.objects.create(
+                    name = z
+                )
+                tags = tags_id.id
+            else:
+                tags = TagsInfo.objects.filter(name = z).first().id
+        main_title = self.request.POST.get("title")
+        print(main_title)
+        sub_image = self.request.POST.get("sub_image")
+        article_table = Article.objects.create(
+            title = main_title, image = sub_image, tags = tags, category = category,
         )
+        print(article_table.id)
 
-        return render(self.request, self.template_name)
+        sub_title = self.request.POST.getlist("sub_title")
+        print(sub_title)
+        content = self.request.POST.getlist("content")
+        print(content)
+        image = self.request.POST.getlist("image")
+        print(image)
+        tmp_file = self.request.POST.getlist("tmp_file")
+        url = self.request.POST.getlist("url")
+
+        tmp_content = []
+        for x in range(0, len(block)):
+            tmp_content.append({
+                "block": block[x], "sub_title": sub_title[x], "content": content[x], "image": image[x],
+            })
+        for y in tmp_content:
+            content = Content.objects.create(
+                article_id = article_table.id, block = y["block"], sub_title = y["sub_title"], content = y["content"], image = y["image"],
+            )
+        for z in url:
+            if z is not None or z != "":
+                References.objects.create(
+                    article_id = article_table.id, title=None, link=z, tmpfile=None
+                )
+        for t in tmp_file:
+            if t is not None or z != "":
+                References.objects.create(
+                    article_id = article_table.id, title=None, tmpfile=t, link=None
+                )
+
+        messages.success(self.request, "記事の内容を投稿しました！！")
+        return redirect("apps:top")
