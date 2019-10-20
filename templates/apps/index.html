@@ -113,10 +113,17 @@
                                             <a href="#">
                                                 <button type="button" class="remake_button">編集</button>
                                             </a>
-                                            <form action="#" method="POST">
-                                                <button type="button" class="delete_button">削除</button>
-                                                {% csrf_token %}
-                                            </form>
+                                            {% if x.delete_flag %}
+                                                <form action="{% url 'apps:delete' %}" method="POST">
+                                                    <button type="button" class="delete_button">復活</button>
+                                                    {% csrf_token %}
+                                                </form>
+                                            {% else %}
+                                                <form action="{% url 'apps:recovery' %}" method="POST" class="form_article_delete">
+                                                    <button type="button" class="delete_button">削除</button>
+                                                    {% csrf_token %}
+                                                </form>
+                                            {% endif %}
                                         </div>
                                     {% endif %}
                                 </div>

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "mysite.templatetags",
     'cloudinary',
     'cloudinary_storage',
+    'channels',
 ]
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 # SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
