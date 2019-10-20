@@ -49,12 +49,20 @@
                                 </p>
                             </div>
                             <div class="text_box_card">
-                                <!-- <div class="logo">
-                                    <img src="{% static 'img/logo.png' %}" alt="">
-                                </div> -->
                                 <a href="{% url 'apps:info' x.pk %}">
                                     <button type="button" class="read_more">記事を読む</button>
                                 </a>
+                                {% if user.is_authenticated %}
+                                    <div class="button_boxes">
+                                        <a href="#">
+                                            <button type="button" class="remake_button">編集</button>
+                                        </a>
+                                        <form action="#" method="POST">
+                                            <button type="button" class="delete_button">削除</button>
+                                            {% csrf_token %}
+                                        </form>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

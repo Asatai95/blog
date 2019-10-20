@@ -181,3 +181,12 @@ class References(models.Model):
         verbose_name = _('link')
         verbose_name_plural = _('link')
         db_table = 'references'
+
+class Test(models.Model):
+
+    id = models.AutoField(primary_key=True)
+
+    class Meta:
+        verbose_name = _('id')
+        verbose_name_plural = _('id')
+        db_table = 'test'
