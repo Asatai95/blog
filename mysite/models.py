@@ -123,6 +123,10 @@ class Article(models.Model):
     tags = models.IntegerField(_('tags'), blank=True , null=True)
     category = models.IntegerField(_('category'), blank=True , null=True)
     image = models.CharField(_('image'), max_length=150, null = True, blank = True, unique=False)
+    delete_flag = models.BooleanField(
+        _('削除フラグ'),
+        default=False,
+    )
     created_at = models.DateTimeField(_('created at'), default=timezone.now)
     updated_at = models.DateTimeField(_('created at'), auto_now=True)
 
@@ -159,6 +163,10 @@ class Content(models.Model):
     sub_title = models.CharField(_('sub_title'), max_length=45, null = True, blank = True, unique=False)
     content = models.TextField(_('article'), max_length=1000, null = True, blank = True, unique=False)
     image = models.CharField(_('image'), max_length=150, null = True, blank = True, unique=False)
+    delete_flag = models.BooleanField(
+        _('削除フラグ'),
+        default=False,
+    )
     created_at = models.DateTimeField(_('created at'), default=timezone.now)
     updated_at = models.DateTimeField(_('created at'), auto_now=True)
 
@@ -174,6 +182,10 @@ class References(models.Model):
     title = models.CharField(_('title'), max_length=255, null = True, blank = True, unique=False)
     link = models.TextField(_('link'), null = True, blank = True, unique=False)
     tmpfile = models.CharField(_('tmpfile'), max_length=255, null = True, blank = True, unique=False)
+    delete_flag = models.BooleanField(
+        _('削除フラグ'),
+        default=False,
+    )
     created_at = models.DateTimeField(_('created at'), default=timezone.now)
     updated_at = models.DateTimeField(_('created at'), auto_now=True)
 

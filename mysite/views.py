@@ -534,3 +534,18 @@ class ArticleDone(generic.FormView):
 
         messages.success(self.request, "記事の内容を投稿しました！！")
         return redirect("apps:top")
+
+# class ArticleDelete(generic.ListView):
+#     model = Article
+
+#     def get(self, request, *args, **kwargs):
+#         return redirect("apps:top")
+
+#     def post(self, request, *args, **kwargs):
+
+#         article_id = int(self.request.POST.get("id"))
+#         print(article_id)
+
+#         self.model.objects.filter(id = article_id).update(
+
+#         )
