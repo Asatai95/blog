@@ -2,7 +2,6 @@ import os
 from django import *
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.contrib.auth.models import User
-from mysite.models import Article, Fab, ArticleLive, Chat_room, Company
 from channels.db import database_sync_to_async
 from asgiref.sync import async_to_sync
 from channels.auth import login
@@ -31,8 +30,6 @@ from cloudinary.forms import cl_init_js_callbacks
 
 
 class Consumer(AsyncWebsocketConsumer):
-
-    model = Chat_room
 
     async def connect(self):
 

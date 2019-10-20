@@ -569,7 +569,7 @@ class ArticleDelete(generic.ListView):
 投稿を復活
 """
 
-class ArticleArticleRecovery(generic.ListView):
+class ArticleRecovery(generic.ListView):
     model = Article
 
     def get(self, request, *args, **kwargs):
