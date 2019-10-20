@@ -412,6 +412,7 @@ nav.bg-dark {
 
 .artcle_content_block .card.mb-3.main_blog {
     width: 100%;
+    position: relative;
 }
 
 .artcle_content_block .card.mb-3.main_blog.info {

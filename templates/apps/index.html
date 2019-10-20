@@ -14,8 +14,13 @@
 
 <div class="box_management">
     {% for x in table %}
+        {% if not user.is_authenticated %}
+            {% if x.delete_flag is False %}
+        {% endif %}
         <div class="card mb-3 main_blog">
-
+            <div class="delete_label">
+                <span>削除中</span>
+            </div>
             <div class="row no-gutters">
                 <div class="badge-secondary">
                     <h1>{{x.title}}</h1>

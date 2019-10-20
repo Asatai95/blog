@@ -35,6 +35,9 @@ INSTALLED_APPS = [
     'mysite.apps.WebappConfig',
     # 'config',
     "mysite.templatetags",
+    'cloudinary',
+    'cloudinary_storage',
+    'mysite.asgi',
 ]
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 # SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
@@ -91,7 +94,7 @@ LOGIN_REDIRECT_URL = 'apps:top'
 LOGOUT_URL = 'apps:logout'
 
 WSGI_APPLICATION = 'config.wsgi.application'
-ASGI_APPLICATION = 'mysite.routing.application'
+ASGI_APPLICATION = 'routing.application'
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
