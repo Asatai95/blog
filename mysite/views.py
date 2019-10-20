@@ -547,23 +547,27 @@ class ArticleDelete(generic.ListView):
 
     def post(self, request, *args, **kwargs):
 
-        article_id = int(self.request.POST.get("id"))
+        article_id = self.request.POST.get("id")
         print(article_id)
+        article_id = int(article_id)
 
         self.model.objects.filter(id = article_id).update(
             delete_flag = True,
         )
 
-        Content.objects.filter(id = article_id).update(
+        Content.objects.filter(article_id = article_id).update(
             delete_flag = True,
         )
 
-        References.objects.filter(id = article_id).update(
+        References.objects.filter(article_id = article_id).update(
             delete_flag = True,
         )
 
+        d = {
+            "article_id": article_id,
+        }
         messages.success(self.request, "記事の内容を削除しました！！")
-        return redirect("apps:top")
+        return JsonResponse(d)
 
 """
 投稿を復活
@@ -579,18 +583,22 @@ class ArticleRecovery(generic.ListView):
 
         article_id = int(self.request.POST.get("id"))
         print(article_id)
-
+        print(type(article_id))
         self.model.objects.filter(id = article_id).update(
             delete_flag = False,
         )
 
-        Content.objects.filter(id = article_id).update(
+        Content.objects.filter(article_id = article_id).update(
             delete_flag = False,
         )
 
-        References.objects.filter(id = article_id).update(
+        References.objects.filter(article_id = article_id).update(
             delete_flag = False,
         )
+
+        d = {
+            "article_id": article_id,
+        }
 
         messages.success(self.request, "記事の内容が復活しました！！")
-        return redirect("apps:top")
+        return JsonResponse(d)

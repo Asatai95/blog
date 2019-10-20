@@ -1,7 +1,7 @@
 {% extends 'apps/base.html' %}
 {% load static %}
 {% block content %}
-
+<!--
 {% if user.is_authenticated %}
     {% if messages %}
     <ul class="messages">
@@ -10,7 +10,7 @@
         {% endfor %}
     </ul>
     {% endif %}
-{% endif %}
+{% endif %} -->
 
 <div class="box_management">
     {% if not user.is_authenticated %}
@@ -114,15 +114,15 @@
                                                 <button type="button" class="remake_button">編集</button>
                                             </a>
                                             {% if x.delete_flag %}
-                                                <form action="{% url 'apps:delete' %}" method="POST">
+                                                <form action="{% url 'apps:recovery' %}" method="POST" class="form_article_delete">
                                                     <input type="hidden" name="article_id" id="id" value="{{x.id}}">
-                                                    <button type="button" class="delete_button">復活</button>
+                                                    <button type="submit" class="delete_button">復活</button>
                                                     {% csrf_token %}
                                                 </form>
                                             {% else %}
-                                                <form action="{% url 'apps:recovery' %}" method="POST" class="form_article_delete">
+                                                <form action="{% url 'apps:delete' %}" method="POST" class="form_article_delete">
                                                     <input type="hidden" name="article_id" id="id" value="{{x.id}}">
-                                                    <button type="button" class="delete_button">削除</button>
+                                                    <button type="submit" class="delete_button">削除</button>
                                                     {% csrf_token %}
                                                 </form>
                                             {% endif %}
@@ -181,32 +181,92 @@
     $(function(){
         $(".form_article_delete").each(function(){
             $(this).submit(function(e){
-                console.log("click")
                 e.preventDefault();
-                $.ajax({
-                    'url': "{% url 'apps:delete' %}",
-                    'type': 'POST',
-                    'data': {
-                        'article_id': $(this).find('#id').val(),
-                    },
-                    'dataType': 'json',
-                }).done(function( reponse ) {
-                    if ("{{user.is_authenticated}}" == "False") {
-                        $(this).parents(".main_blog").remove();
-                    } else {
-                        $(this).parents(".main_blog").prepend(
-                            '<div class="delete_label">\
-                                <span>削除中</span>\
-                            </div>'
-                        );
-                    }
-                });
-                return false
+                if ($(this).attr("action") == "{% url 'apps:delete' %}") {
+                    $.ajax({
+                        'url': "{% url 'apps:delete' %}",
+                        'type': 'POST',
+                        'data': {
+                            'id': $(this).find('#id').val(),
+                        },
+                        'dataType': 'json',
+                    }).done(function( response ) {
+                        if ("{{user.is_authenticated}}" == "False") {
+                            $(".form_article_delete #id").each(function(){
+                                if ($(this).val() == String(response["article_id"])) {
+                                    if ($(this).parents(".main_blog").length){
+                                        $(this).parents(".main_blog").remove();
+                                    }
+                                }
+                            });
+                        } else {
+                            $(".form_article_delete #id").each(function(){
+                                if ($(this).val() == String(response["article_id"])) {
+                                    if ($(this).parents(".main_blog").find(".delete_label").length){
+                                        $(this).next("button").text("削除");
+                                        $(this).parents(".form_article_delete").attr("action", "{% url 'apps:delete' %}");
+                                        $(this).parents(".main_blog").find(".delete_label").remove();
+                                    } else {
+                                        $(this).next("button").text("復活");
+                                        $(this).parents(".form_article_delete").attr("action", "{% url 'apps:recovery' %}");
+                                        $(this).parents(".main_blog").prepend(
+                                            '<div class="delete_label">\
+                                                <span>削除中</span>\
+                                            </div>'
+                                        );
+                                    }
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        'url': "{% url 'apps:recovery' %}",
+                        'type': 'POST',
+                        'data': {
+                            'id': $(this).find('#id').val(),
+                        },
+                        'dataType': 'json',
+                    }).done(function( response ) {
+                        if ("{{user.is_authenticated}}" == "False") {
+                            $(".form_article_delete #id").each(function(){
+                                if ($(this).val() == String(response["article_id"])) {
+                                    if ($(this).parents(".main_blog").length){
+                                        $(this).parents(".main_blog").remove();
+                                    }
+                                }
+                            });
+                        } else {
+                            $(".form_article_delete #id").each(function(){
+                                if ($(this).val() == String(response["article_id"])) {
+                                    if ($(this).parents(".main_blog").find(".delete_label").length){
+                                        $(this).next("button").text("削除");
+                                        $(this).parents(".form_article_delete").attr("action", "{% url 'apps:delete' %}");
+                                        $(this).parents(".main_blog").find(".delete_label").remove();
+                                    } else {
+                                        $(this).next("button").text("復活");
+                                        $(this).parents(".form_article_delete").attr("action", "{% url 'apps:recovery' %}");
+                                        $(this).parents(".main_blog").prepend(
+                                            '<div class="delete_label">\
+                                                <span>削除中</span>\
+                                            </div>'
+                                        );
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
             });
         });
     });
 
     $(function(){
+        $(".messages li").each(function(index){
+            if (index != 0){
+                $(this).hide();
+            }
+        });
         if ( $(".messages").length) {
             setTimeout(function(){
                 $('.messages').animate({"top": "-100px"}, 2000, 'linear', function() {
