@@ -36,7 +36,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="main_nav">
-                <div class="nav_type">
+                <div class="nav_type{% if user.is_authenticated %} manager{% endif %}">
                     <div class="top_logo">
                         <a href="{% url 'apps:top' %}">
                             <img src="{% static 'img/top_logo.png' %}" alt="">
@@ -58,6 +58,13 @@
                                 HOBBY
                             </a>
                         </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a href="{% url 'apps:create' %}">
+                                    CREATE
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="search_box{% if user.is_authenticated %} login_user{% endif %}">

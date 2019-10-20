@@ -1,0 +1,166 @@
+{% extends 'apps/base.html' %}
+{% load static %}
+{% block content %}
+<div class="progress_main_box create_form_progress">
+    <div class="loading_icon">
+    </div>
+    <img src="{% static 'img/oval.svg' %}" alt="">
+    <div class="loading_title">
+        <p>Loading<span class="loop_dot">...</span></p>
+    </div>
+    <div class="progress_bar">
+        <p class="bar"><span></span></p>
+    </div>
+</div>
+<div class="card mb-3 main_blog info">
+    <div class="error_field">
+        {{ form.non_field_errors }}
+    </div>
+    <div class="row no-gutters">
+        <form action="{% url 'apps:confirm' %}" method="POST">
+            <div class="badge-secondary">
+                {{form.title}}
+            </div>
+            <div class="card_comment_box info">
+                <div class="col main_box">
+                    <div class="card-body">
+                        <div class="contents_sub_title input_form">
+                            <div class="select_box title_box category_div">
+                                <span class="icon">カテゴリー</span>
+                                <select id="category_select">
+                                    <option value="">選択してください</option>
+                                    {% for x in category_table %}
+                                        <option value="{{x.name}}">{{x.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <img src="{% static 'img/add.png' %}" alt="">
+                            </div>
+                            {% if category is not None %}
+                                <p class="card-text sub_info topic input_form">
+                                    {% for x in category %}
+                                        <input type="text" name="category" id="id_category" placeholder="カテゴリー名称" class="form-control" maxlength="45" value="{{x}}" >
+                                    {% endfor %}
+                                </p>
+                            {% else %}
+                                <p class="card-text sub_info topic input_form">
+                                    {{form.category}}
+                                </p>
+                            {% endif %}
+                            <div class="select_box title_box tags_div">
+                                <span class="icon">タグ</span>
+                                <select id="tags_select">
+                                    <option value="">選択してください</option>
+                                    {% for x in tags %}
+                                        <option value="{{x.name}}">{{x.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <img src="{% static 'img/add.png' %}" alt="">
+                            </div>
+                            {% if tags_form is not None %}
+                                <p class="card-text sub_info topic input_form">
+                                    {% for x in tags_form %}
+                                        <input type="text" name="tags" id="id_tags" placeholder="タグ名称" class="form-control" maxlength="45" value="{{x}}">
+                                    {% endfor %}
+                                </p>
+                            {% else %}
+                                <p class="card-text sub_info topic input_form">
+                                    {{form.tags}}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="main_article_info_block">
+                        {% for y in block_id %}
+                            {% for z in tmp_block %}
+                                {% if y == z.block %}
+                                    <div class="article_info contents">
+                                        <div class="content_block">
+                                            <p>
+                                                <span>ブロック</span>
+                                                <input type="number" name="block" id="id_block" class="form-control" value="{{z.block}}" >
+                                            </p>
+                                        </div>
+                                        <div class="sub_title_block input_form">
+                                            <div class="select_box title_box">
+                                                <span class="icon">サブタイトル</span>
+                                                <select id="sub_title_select">
+                                                    <option value="">選択してください</option>
+                                                    {% for x in content %}
+                                                        <option value="{{x.sub_title}}">{{x.sub_title}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <input type="text" name="sub_title" id="id_sub_title" placeholder="サブタイトル" class="form-control" maxlength="45" value="{{z.sub_title}}">
+                                        </div>
+                                        <div class="main_article_contents input_form">
+                                            <div class="select_box title_box">
+                                                <span class="icon">コンテンツ</span>
+                                            </div>
+                                            <div class="textarea_box">
+                                                <textarea name="content" rows="10" placeholder="あさぶろ" class="form-control" id="id_content" cols="40" value="{{z.content}}"></textarea>
+                                                <div class="add_something_area">
+                                                    <div>
+                                                        <span>投稿に要素追加</span>
+                                                    </div>
+                                                    <div class="button_area">
+                                                        <button type="button" class="add_link">リンク</button>
+                                                        <button type="button" class="strong_text">強調</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="image_block input_form">
+                                            <div class="select_box title_box">
+                                                <span class="icon">画像</span>
+                                                <span class="error_message">画像追加中にエラーが発生しました</span>
+                                            </div>
+                                            {{form.img}}
+                                            <input type="text" name="pre_image" id="id_pre_image" readonly="" class="form-control" maxlength="45" value="{{z.image}}">
+                                            <div class="img_pre">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="more_information">
+                                        <p>
+                                            <a href="#">
+                                                <img src="{% static 'img/add.png' %}" alt="">
+                                                ブロックを追加する
+                                            </a>
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    <div class="input_button_area">
+                        <input type="submit" class="input_button" value="確認画面">
+                    </div>
+                    <div class="card-footer">
+                        <div class="tmp_file_box">
+                            <p>
+                                添付ファイル
+                                <img src="{% static 'img/add.png' %}" alt="">
+                            </p>
+                            {% for x tmp_file %}
+                                <input type="file" name="tmp_file" id="id_tmp_file" class="form-control" value="{{x}}">
+                            {% endfor %}
+                        </div>
+                        <div class="url_box">
+                            <p>
+                                関連記事
+                                <img src="{% static 'img/add.png' %}" alt="">
+                            </p>
+                            {% for x in url %}
+                                <input type="url" name="url" id="id_url" class="form-control" value="{{x}}">
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

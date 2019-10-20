@@ -79,6 +79,7 @@
                     <form action="{% url 'apps:create' %}" method="POST">
                         <input type="submit" class="input_button" value="戻る">
                         <div class="form_value_list">
+                            <input type="hidden" value="{{form.title.value}}" name="title">
                             {% for x in url %}
                                 <input type="hidden" value="{{x}}" name="url">
                             {% endfor %}
@@ -86,18 +87,10 @@
                                 <input type="hidden" value="{{x}}" name="tmp_file">
                             {% endfor %}
                             {% for x in tmp_block %}
-                                {% if x.block %}
-                                    <input type="hidden" value="{{x.block}}" name="block">
-                                {% endif %}
-                                {% if x.sub_title %}
-                                    <input type="hidden" value="{{x.sub_title}}" name="sub_title">
-                                {% endif %}
-                                {% if x.content %}
-                                    <input type="hidden" value="{{x.content}}" name="content">
-                                {% endif %}
-                                {% if x.image %}
-                                    <input type="hidden" value="{{x.image}}" name="image">
-                                {% endif %}
+                                <input type="hidden" value="{{x.block}}" name="block">
+                                <input type="hidden" value="{{x.sub_title}}" name="sub_title">
+                                <input type="hidden" value="{{x.content}}" name="content">
+                                <input type="hidden" value="{{x.image}}" name="image">
                             {% endfor %}
                             {% for x in category %}
                                 <input type="hidden" value="{{x}}" name="category">
@@ -106,6 +99,7 @@
                                 <input type="hidden" value="{{x}}" name="tags">
                             {% endfor %}
                         </div>
+                        {% csrf_token %}
                     </form>
                     <form action="{% url 'apps:done' %}" method="POST">
                         <input type="submit" class="input_button" value="投稿">
@@ -117,18 +111,10 @@
                                 <input type="hidden" value="{{x}}" name="tmp_file">
                             {% endfor %}
                             {% for x in tmp_block %}
-                                {% if x.block %}
-                                    <input type="hidden" value="{{x.block}}" name="block">
-                                {% endif %}
-                                {% if x.sub_title %}
-                                    <input type="hidden" value="{{x.sub_title}}" name="sub_title">
-                                {% endif %}
-                                {% if x.content %}
-                                    <input type="hidden" value="{{x.content}}" name="content">
-                                {% endif %}
-                                {% if x.image %}
-                                    <input type="hidden" value="{{x.image}}" name="image">
-                                {% endif %}
+                                <input type="hidden" value="{{x.block}}" name="block">
+                                <input type="hidden" value="{{x.sub_title}}" name="sub_title">
+                                <input type="hidden" value="{{x.content}}" name="content">
+                                <input type="hidden" value="{{x.image}}" name="image">
                             {% endfor %}
                             {% for x in category %}
                                 <input type="hidden" value="{{x}}" name="category">
@@ -137,6 +123,7 @@
                                 <input type="hidden" value="{{x}}" name="tags">
                             {% endfor %}
                         </div>
+                        {% csrf_token %}
                     </form>
                 </div>
                 <div class="card-footer">

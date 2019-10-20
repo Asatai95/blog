@@ -157,6 +157,10 @@ nav.bg-dark {
     justify-content: space-between;
 }
 
+.main_nav .nav_type.manager {
+    width: 400px;
+}
+
 .top_logo {
     margin-right: 10px;
 }

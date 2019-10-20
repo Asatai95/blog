@@ -126,6 +126,22 @@ $(function(){
                 }
             });
 
+            $(".add_link").on("click", function(e){
+                e.preventDefault();
+                $(this).parents(".textarea_box").find("textarea").each(function(){
+                    var textarea = $(this).val() + '\n<a href=""></a>';
+                    $(this).val(textarea);
+                });
+            });
+
+            $(".strong_text").on("click", function(e){
+                e.preventDefault();
+                $(this).parents(".textarea_box").find("textarea").each(function(){
+                    var textarea = $(this).val() + '\n<strong></strong>';
+                    $(this).val(textarea);
+                });
+            });
+
             $(document).ready(function(){
                 $(".cloudinary-fileupload").each(function(){
                     $(this).change(function(){
