@@ -93,7 +93,7 @@ LOGIN_REDIRECT_URL = 'apps:top'
 LOGOUT_URL = 'apps:logout'
 
 WSGI_APPLICATION = 'config.wsgi.application'
-ASGI_APPLICATION = 'routing.application'
+ASGI_APPLICATION = 'config.routing.application'
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",

@@ -564,3 +564,33 @@ class ArticleDelete(generic.ListView):
 
         messages.success(self.request, "記事の内容を削除しました！！")
         return redirect("apps:top")
+
+"""
+投稿を復活
+"""
+
+class ArticleDelete(generic.ListView):
+    model = Article
+
+    def get(self, request, *args, **kwargs):
+        return redirect("apps:top")
+
+    def post(self, request, *args, **kwargs):
+
+        article_id = int(self.request.POST.get("id"))
+        print(article_id)
+
+        self.model.objects.filter(id = article_id).update(
+            delete_flag = False,
+        )
+
+        Content.objects.filter(id = article_id).update(
+            delete_flag = False,
+        )
+
+        References.objects.filter(id = article_id).update(
+            delete_flag = False,
+        )
+
+        messages.success(self.request, "記事の内容が復活しました！！")
+        return redirect("apps:top")

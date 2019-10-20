@@ -13,71 +13,123 @@
 {% endif %}
 
 <div class="box_management">
-    {% for x in table %}
-        {% if not user.is_authenticated %}
+    {% if not user.is_authenticated %}
+        {% for x in table %}
             {% if x.delete_flag is False %}
-        {% endif %}
-        <div class="card mb-3 main_blog">
-            <div class="delete_label">
-                <span>削除中</span>
-            </div>
-            <div class="row no-gutters">
-                <div class="badge-secondary">
-                    <h1>{{x.title}}</h1>
-                </div>
-                <div class="card_comment_box">
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <div class="contents_sub_title">
-                                <p class="card-text sub_info">
-                                    {% for y in date %}
-                                        {% if y.id == x.id %}
-                                            {% if y.day == "today"%}
-                                                <span>Today</span>
-                                            {% else %}
-                                                <span>約 {{y.day}} 日前</span>
-                                            {% endif %}
-                                            <span>{{x.created_at}}</span>
-                                        {% endif %}
-                                    {% endfor %}
-                                </p>
-                                <p class="card-text sub_info topic">
-                                    <span>
-                                        <a href="#">
-                                            {% for z in tags %}
-                                                {% if z.id == x.tags %}
-                                                    {{z.name}}
+            <div class="card mb-3 main_blog">
+                <div class="row no-gutters">
+                    <div class="badge-secondary">
+                        <h1>{{x.title}}</h1>
+                    </div>
+                    <div class="card_comment_box">
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <div class="contents_sub_title">
+                                    <p class="card-text sub_info">
+                                        {% for y in date %}
+                                            {% if y.id == x.id %}
+                                                {% if y.day == "today"%}
+                                                    <span>Today</span>
+                                                {% else %}
+                                                    <span>約 {{y.day}} 日前</span>
                                                 {% endif %}
-                                            {% endfor %}
-                                        </a>
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="text_box_card{% if user.is_authenticated %} manager{% endif %}">
-                                <a href="{% url 'apps:info' x.pk %}">
-                                    <button type="button" class="read_more">記事を読む</button>
-                                </a>
-                                {% if user.is_authenticated %}
-                                    <div class="button_boxes">
-                                        <a href="#">
-                                            <button type="button" class="remake_button">編集</button>
-                                        </a>
-                                        <form action="#" method="POST">
-                                            <button type="button" class="delete_button">削除</button>
-                                            {% csrf_token %}
-                                        </form>
-                                    </div>
-                                {% endif %}
+                                                <span>{{x.created_at}}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </p>
+                                    <p class="card-text sub_info topic">
+                                        <span>
+                                            <a href="#">
+                                                {% for z in tags %}
+                                                    {% if z.id == x.tags %}
+                                                        {{z.name}}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </a>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="text_box_card{% if user.is_authenticated %} manager{% endif %}">
+                                    <a href="{% url 'apps:info' x.pk %}">
+                                        <button type="button" class="read_more">記事を読む</button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <img src="{{ctx_proc_value}}{{x.image}}" class="card-img" alt="...">
+                        <div class="col-md-4">
+                            <img src="{{ctx_proc_value}}{{x.image}}" class="card-img" alt="...">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% for x in table %}
+            <div class="card mb-3 main_blog">
+                {% if x.delete_flag %}
+                    <div class="delete_label">
+                        <span>削除中</span>
+                    </div>
+                {% endif %}
+                <div class="row no-gutters">
+                    <div class="badge-secondary">
+                        <h1>{{x.title}}</h1>
+                    </div>
+                    <div class="card_comment_box">
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <div class="contents_sub_title">
+                                    <p class="card-text sub_info">
+                                        {% for y in date %}
+                                            {% if y.id == x.id %}
+                                                {% if y.day == "today"%}
+                                                    <span>Today</span>
+                                                {% else %}
+                                                    <span>約 {{y.day}} 日前</span>
+                                                {% endif %}
+                                                <span>{{x.created_at}}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </p>
+                                    <p class="card-text sub_info topic">
+                                        <span>
+                                            <a href="#">
+                                                {% for z in tags %}
+                                                    {% if z.id == x.tags %}
+                                                        {{z.name}}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </a>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="text_box_card{% if user.is_authenticated %} manager{% endif %}">
+                                    <a href="{% url 'apps:info' x.pk %}">
+                                        <button type="button" class="read_more">記事を読む</button>
+                                    </a>
+                                    {% if user.is_authenticated %}
+                                        <div class="button_boxes">
+                                            <a href="#">
+                                                <button type="button" class="remake_button">編集</button>
+                                            </a>
+                                            <form action="#" method="POST">
+                                                <button type="button" class="delete_button">削除</button>
+                                                {% csrf_token %}
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="{{ctx_proc_value}}{{x.image}}" class="card-img" alt="...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
 </div>
 
 

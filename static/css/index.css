@@ -415,6 +415,23 @@ nav.bg-dark {
     position: relative;
 }
 
+.delete_label {
+    width: 80px;
+    position: absolute;
+    top: -25px;
+    right: 10px;
+    background: rgb(255, 75, 0, .8);
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    color: #fff;
+    height: 25px;
+}
+
+.delete_label span {
+    font-size: 16px;
+    font-weight: 800;
+}
+
 .artcle_content_block .card.mb-3.main_blog.info {
     width: 60%;
 }
@@ -496,9 +513,9 @@ nav.bg-dark {
     text-decoration: none;
 }
 
-.card .row .col.main_box .card-body .card-text.topic span a:hover {
+/* .card .row .col.main_box .card-body .card-text.topic span a:hover {
 
-}
+} */
 
 .card .row .col.main_box .card-body .card-text.topic span.tag {
     margin-right: 10px;
