@@ -28,6 +28,9 @@ urlpatterns = [
     path('article/create/confirm/', login_required(views.ArticleConfirm.as_view()), name='confirm'),
     path('article/create/done/', login_required(views.ArticleDone.as_view()), name='done'),
     # 記事更新
+    # path('manage/article/create/', login_required(views.ArticleCreate.as_view()), name='create'),
+    # path('article/create/confirm/', login_required(views.ArticleConfirm.as_view()), name='confirm'),
+    # path('article/create/done/', login_required(views.ArticleDone.as_view()), name='done'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
