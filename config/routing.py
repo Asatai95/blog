@@ -1,7 +1,7 @@
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 
-from mysite.chat import routing
+from mysite.asgi import routing
 
 
 application = ProtocolTypeRouter({
