@@ -454,6 +454,7 @@ nav.bg-dark {
 }
 
 .card_comment_box {
+    width: 100%;
     display: flex;
     align-items: flex-start;
 }
@@ -464,6 +465,17 @@ nav.bg-dark {
 
 .artcle_content_block .card .row .card_comment_box .col-md-4 {
     padding: 0;
+}
+
+.artcle_content_block .card .row .card_comment_box .col-md-4.main_view {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.artcle_content_block .card .row .card_comment_box .col-md-4.main_view img {
+    width: 60%;
 }
 
 .card .row .col-md-8 .card-body {
