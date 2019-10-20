@@ -17,8 +17,13 @@ import cloudinary.api
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 PROJECT_NAME = os.path.basename(BASE_DIR)
+
 SECRET_KEY = '75c6@w6i1c=xsb$($_117$zk-v!@n*5r9(@tgcj+n=jj+ff*g!'
 DEBUG = True
+
+if os.environ.get("HEROKU") == "blog":
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     # 'django.contrib.admin',
@@ -104,19 +109,34 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         }
 #     }
 # else:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog',
-        'USER': 'root',
-        'PASSWORD': 'blog',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+if os.environ.get("HEROKU") == "blog" :
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'heroku_ad937116108a36d',
+            'USER': 'bd14342af96439',
+            'PASSWORD': '6915c934',
+            'HOST': 'us-cdbr-iron-east-05.cleardb.net',
+            'PORT': '3306',
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+            },
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'blog',
+            'USER': 'root',
+            'PASSWORD': 'blog',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+            },
+        }
+    }
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
