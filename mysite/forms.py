@@ -86,6 +86,10 @@ class InputForm(forms.Form):
         label = "サムネイル",
     )
 
+    sub_preimage = forms.CharField(
+           max_length=45,
+    )
+
     pre_image = forms.CharField(
            max_length=45,
     )
@@ -94,13 +98,19 @@ class InputForm(forms.Form):
         label = "添付ファイル",
     )
 
+    url_title = forms.CharField(
+           label="タイトル",
+           max_length=45,
+           widget=forms.TextInput(attrs={'placeholder':'タイトル'}),
+    )
+
     url = forms.URLField(
         label = "関連記事",
     )
 
     class Meta:
         fields = ("block", "title", "sub_title", "tags", "category", "content", "img",
-                  "tmp_file", "url", "pre_image", "sub_image",)
+                  "tmp_file", "url", "pre_image", "sub_image", "sub_preimage", "url_title",)
 
     def __init__(self, *args, **kwargs):
         super(InputForm, self).__init__(*args, **kwargs)

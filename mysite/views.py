@@ -347,10 +347,6 @@ class ArticleCreate(generic.FormView):
     def get(self, request, *args, **kwargs):
 
         tags_table = TagsInfo.objects.all()
-        if len(tags_table) <= 1:
-            print("tags")
-        else:
-            print("pass")
         count_tag = TagstableInfo(self, tags_table)
 
         category_table = CategoryInfo.objects.all()
@@ -366,23 +362,14 @@ class ArticleCreate(generic.FormView):
         category = self.request.POST.getlist("category")
         if len(category) <= 1:
             category = None
-        print(category)
         tags = self.request.POST.getlist("tags")
         if len(tags) <= 1:
             tags = None
-        print(tags)
         block_id = self.request.POST.getlist("block")
-        print("block_id")
-        print(block_id)
         block_count = len(block_id)
-        print("block_count")
-        print(block_count)
         sub_title = self.request.POST.getlist("sub_title")
-        print(sub_title)
         content = self.request.POST.getlist("content")
-        print(content)
         image = self.request.POST.getlist("image")
-        print(image)
         tmp_file = self.request.POST.getlist("tmp_file")
         url = self.request.POST.getlist("url")
         tags_table = TagsInfo.objects.all()
@@ -399,12 +386,9 @@ class ArticleCreate(generic.FormView):
                 })
             except:
                 pass
-        for x in tmp_block:
-            for y in block_id:
-                if y == x["block"]:
-                    print(x)
-        return render(self.request, self.template_name, {"form": form, "block_id": block_id , "tmp_block": tmp_block, "url": url, "count_tag": count_tag, "category_table": category_table,
-                                                         "tmp_file": tmp_file, "category": category, "tags_form": tags, "tags":tags_table, "count_category_tag": count_category_tag})
+
+        return render(self.request, "register/insert_confirm.html", {"form": form, "block_id": block_id , "tmp_block": tmp_block, "url": url, "count_tag": count_tag, "category_table": category_table,
+                                                                     "tmp_file": tmp_file, "category": category, "tags_form": tags, "tags":tags_table, "count_category_tag": count_category_tag})
 
 """
 記事情報入力確認画面
@@ -428,6 +412,8 @@ class ArticleConfirm(generic.FormView):
             if x != "":
                 tmp_tags_list.append(x)
         tags = tmp_tags_list
+        sub_preimage = self.request.POST.get("sub_preimage")
+        print(sub_preimage)
         block = self.request.POST.getlist("block")
         block_count = len(block)
         sub_title = self.request.POST.getlist("sub_title")
@@ -481,11 +467,7 @@ class ArticleConfirm(generic.FormView):
                 })
             except:
                 pass
-        print(tmp_block)
-        for x in tmp_block:
-            for y in block:
-                if y == x["block"]:
-                    print(x)
+
         return render(self.request, "register/insert.html", {"form": form, "block_id": block , "tmp_block": tmp_block, "url": url, "count_tag": count_tag, "category_table": category_table,
                                                          "tmp_file": tmp_file, "category": category, "tags_form": tags, "tags":tags_table, "count_category_tag": count_category_tag})
 

@@ -15,7 +15,7 @@
 
         <div class="card_comment_box info">
             <div class="col main_box">
-                <div class="card-body">
+                <div class="card-body insert_article">
                     <div class="contents_sub_title input_form">
                         <div class="select_box title_box category_div">
                             <span class="icon">カテゴリー</span>
@@ -32,6 +32,18 @@
                         {% for x in tags_form %}
                                 <span>{{x}}</span>
                             {% endfor %}
+                        </div>
+                    </div>
+                    <div class="sub_image_box">
+                        <div class="sub_image_input confirm">
+                            <span class="icon">サムネイル</span>
+                        </div>
+                        <div class="sub_image_view">
+                            {% if form.sub_preimage.value %}
+                                <img src="{{ctx_proc_value}}{{form.sub_preimage.value}}" alt="">
+                            {% else %}
+                                <img src="{{ctx_proc_value}}no-image" alt="">
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -80,6 +92,9 @@
                         <input type="submit" class="input_button" value="戻る">
                         <div class="form_value_list">
                             <input type="hidden" value="{{form.title.value}}" name="title">
+                            {% if form.sub_preimage.value %}
+                                <input type="hidden" value="{{form.sub_preimage.value}}" name="sub_image">
+                            {% endif %}
                             {% for x in url %}
                                 <input type="hidden" value="{{x}}" name="url">
                             {% endfor %}
@@ -104,6 +119,9 @@
                     <form action="{% url 'apps:done' %}" method="POST">
                         <input type="submit" class="input_button" value="投稿">
                         <div class="form_value_list">
+                            {% if form.sub_preimage.value %}
+                                <input type="hidden" value="{{form.sub_preimage.value}}" name="sub_image">
+                            {% endif %}
                             {% for x in url %}
                                 <input type="hidden" value="{{x}}" name="url">
                             {% endfor %}

@@ -179,9 +179,18 @@ $(function(){
                         $(".progress_main_box").fadeOut();
                         $(this).next("input").val(data.result.public_id);
                         var img_link = "https://res.cloudinary.com/db5nsevmi/" + data.result.public_id;
-                        $(this).parents(".image_block").find(".img_pre").append(
-                            '<img src="'+img_link+'" alt="">'
-                        )
+                        $(this).parents(".image_block").find(".img_pre").each(function(){
+                            if ($(this).find('img').length){
+                                $(this).find('img').remove();
+                                $(this).append(
+                                    '<img src="'+img_link+'" alt="">'
+                                )
+                            } else {
+                                $(this).append(
+                                    '<img src="'+img_link+'" alt="">'
+                                )
+                            }
+                        });
                         $(this).parents(".image_block").find(".img_pre").fadeIn(800);
                     });
                 });
@@ -226,9 +235,34 @@ $(function(){
                 $(".progress_main_box").fadeOut();
                 $(this).next("input").val(data.result.public_id);
                 var img_link = "https://res.cloudinary.com/db5nsevmi/" + data.result.public_id;
-                $(this).parents(".image_block").find(".img_pre").append(
-                    '<img src="'+img_link+'" alt="">'
-                )
+                if ($(this).parents(".image_block").find(".img_pre").length){
+                    $(this).parents(".image_block").find(".img_pre").each(function(){
+                        if ($(this).find('img').length){
+                            $(this).find('img').remove();
+                            $(this).append(
+                                '<img src="'+img_link+'" alt="">'
+                            )
+                        } else {
+                            $(this).append(
+                                '<img src="'+img_link+'" alt="">'
+                            )
+                        }
+                    });
+                } else {
+                    $(this).parents(".sub_image_box").find(".sub_image_view").each(function(){
+                        if ($(this).find("img").length) {
+                            $(this).find("img").remove();
+                            $(this).append(
+                                '<img src="'+img_link+'" alt="">'
+                            )
+                        } else {
+                            $(this).append(
+                                '<img src="'+img_link+'" alt="">'
+                            )
+                        }
+                    });
+                }
+
                 $(this).parents(".image_block").find(".img_pre").fadeIn(800);
             });
         });

@@ -109,15 +109,17 @@ input {
 
 .progress_main_box.create_form_progress .progress_bar {
     width: 600px;
-    height: 30px;
+    height: 35px;
+    background: rgb(0, 195, 159);
+    border-radius: 30px;
 }
 
 .progress_main_box.create_form_progress .progress_bar p {
-    width: 100%;
-    background: rgb(0, 195, 159);
+    width: 0%;
+    background: rgb(255, 241, 0);
     height: 35px;
     border-radius: 30px;
-    margin: auto;
+    margin: 0px;
 }
 
 /* エラータグ */
@@ -949,6 +951,10 @@ nav.bg-dark {
     text-align: center;
 }
 
+.img_pre.view {
+    display: block;
+}
+
 .img_pre img {
     width: 200px;
     height : 200px;
@@ -982,7 +988,61 @@ nav.bg-dark {
     box-shadow: 0 0 5px #e9ecef;
 }
 
+.card .row .col.main_box .card-body.insert_article {
+    flex-direction: initial;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.card .row .col.main_box .card-body.insert_article .contents_sub_title.input_form {
+    width: 45%;
+}
+
+.card .row .col.main_box .card-body.insert_article .sub_image_box {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.sub_image_input {
+    height: 80px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.sub_image_input.confirm {
+    height: 30px;
+}
+
+.sub_image_input .icon {
+    background-color: #6c757d;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    margin: auto 10px;
+}
+
+.sub_image_view {
+    margin: 10px auto;
+}
+
+.sub_image_view img {
+    width: 150px;
+    height: 150px;
+}
+
 #id_pre_image {
+    display: none;
+}
+
+#id_sub_preimage {
     display: none;
 }
 

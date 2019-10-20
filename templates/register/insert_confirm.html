@@ -23,7 +23,7 @@
             </div>
             <div class="card_comment_box info">
                 <div class="col main_box">
-                    <div class="card-body">
+                    <div class="card-body insert_article">
                         <div class="contents_sub_title input_form">
                             <div class="select_box title_box category_div">
                                 <span class="icon">カテゴリー</span>
@@ -68,8 +68,21 @@
                                 </p>
                             {% endif %}
                         </div>
+                        <div class="sub_image_box">
+                            <div class="sub_image_input">
+                                <span class="icon">サムネイル</span>
+                                {{form.sub_image}}
+                                <input type="text" name="sub_preimage" class="form-control" maxlength="45" id="id_sub_preimage" value="{{form.sub_image.value}}">
+                            </div>
+                            <div class="sub_image_view">
+                                {% if form.sub_image.value %}
+                                    <img src="{{ctx_proc_value}}{{form.sub_image.value}}" alt="">
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                     <hr>
+
                     <div class="main_article_info_block">
                         {% for y in block_id %}
                             {% for z in tmp_block %}
@@ -91,14 +104,22 @@
                                                     {% endfor %}
                                                 </select>
                                             </div>
-                                            <input type="text" name="sub_title" id="id_sub_title" placeholder="サブタイトル" class="form-control" maxlength="45" value="{{z.sub_title}}">
+                                            {% if z.sub_title == "None" %}
+                                                <input type="text" name="sub_title" id="id_sub_title" placeholder="サブタイトル" class="form-control" maxlength="45" value="">
+                                            {% else %}
+                                                <input type="text" name="sub_title" id="id_sub_title" placeholder="サブタイトル" class="form-control" maxlength="45" value="{{z.sub_title}}">
+                                            {% endif %}
                                         </div>
                                         <div class="main_article_contents input_form">
                                             <div class="select_box title_box">
                                                 <span class="icon">コンテンツ</span>
                                             </div>
                                             <div class="textarea_box">
-                                                <textarea name="content" rows="10" placeholder="あさぶろ" class="form-control" id="id_content" cols="40" value="{{z.content}}"></textarea>
+                                                {% if z.content == "None" %}
+                                                    <textarea name="content" rows="10" placeholder="あさぶろ" class="form-control" id="id_content" cols="40"></textarea>
+                                                {% else %}
+                                                    <textarea name="content" rows="10" placeholder="あさぶろ" class="form-control" id="id_content" cols="40">{{z.content}}</textarea>
+                                                {% endif %}
                                                 <div class="add_something_area">
                                                     <div>
                                                         <span>投稿に要素追加</span>
@@ -116,22 +137,29 @@
                                                 <span class="error_message">画像追加中にエラーが発生しました</span>
                                             </div>
                                             {{form.img}}
-                                            <input type="text" name="pre_image" id="id_pre_image" readonly="" class="form-control" maxlength="45" value="{{z.image}}">
-                                            <div class="img_pre">
+                                            {% if z.image == "None" %}
+                                                <input type="text" name="pre_image" id="id_pre_image" readonly="" class="form-control" maxlength="45" value="">
+                                            {% else %}
+                                                <input type="text" name="pre_image" id="id_pre_image" readonly="" class="form-control" maxlength="45" value="{{z.image}}">
+                                            {% endif %}
+                                            <div class="img_pre{% if z.image %} view{% endif %}">
+                                                {% if z.image %}
+                                                    <img src="{{ctx_proc_value}}{{z.image}}" alt="">
+                                                {% endif %}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="more_information">
-                                        <p>
-                                            <a href="#">
-                                                <img src="{% static 'img/add.png' %}" alt="">
-                                                ブロックを追加する
-                                            </a>
-                                        </p>
                                     </div>
                                 {% endif %}
                             {% endfor %}
                         {% endfor %}
+                        <div class="more_information">
+                            <p>
+                                <a href="#">
+                                    <img src="{% static 'img/add.png' %}" alt="">
+                                    ブロックを追加する
+                                </a>
+                            </p>
+                        </div>
                     </div>
                     <div class="input_button_area">
                         <input type="submit" class="input_button" value="確認画面">
@@ -142,7 +170,7 @@
                                 添付ファイル
                                 <img src="{% static 'img/add.png' %}" alt="">
                             </p>
-                            {% for x tmp_file %}
+                            {% for x in tmp_file %}
                                 <input type="file" name="tmp_file" id="id_tmp_file" class="form-control" value="{{x}}">
                             {% endfor %}
                         </div>

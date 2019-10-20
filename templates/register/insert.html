@@ -23,7 +23,7 @@
             </div>
             <div class="card_comment_box info">
                 <div class="col main_box">
-                    <div class="card-body">
+                    <div class="card-body insert_article">
                         <div class="contents_sub_title input_form">
                             <div class="select_box title_box category_div">
                                 <span class="icon">カテゴリー</span>
@@ -51,6 +51,15 @@
                             <p class="card-text sub_info topic input_form">
                                 {{form.tags}}
                             </p>
+                        </div>
+                        <div class="sub_image_box">
+                            <div class="sub_image_input">
+                                <span class="icon">サムネイル</span>
+                                {{form.sub_image}}
+                                {{form.sub_preimage}}
+                            </div>
+                            <div class="sub_image_view">
+                            </div>
                         </div>
                     </div>
                     <hr>

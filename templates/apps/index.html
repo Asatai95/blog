@@ -2,6 +2,16 @@
 {% load static %}
 {% block content %}
 
+{% if user.is_authenticated %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %} alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endif %}
+
 <div class="box_management">
     {% for x in table %}
         <div class="card mb-3 main_blog">
