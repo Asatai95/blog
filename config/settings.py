@@ -176,9 +176,9 @@ AUTH_USER_MODEL = 'mysite.User'
 
 
 cloudinary.config(
-    cloud_name = 'db5nsevmi',
-    api_key = '881246414241688',
-    api_secret = 'Z_eIAX_pTKF5JHFxl2KrOoWqLz8'
+    cloud_name = 'dq14n6i0f',
+    api_key = '437376473956254',
+    api_secret = 'TY6HJPsF6mT7fKIvyKUe7LlMNv0'
 )
 
 # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

@@ -178,7 +178,7 @@ $(function(){
                     .bind('cloudinarydone', function(e, data) {
                         $(".progress_main_box").fadeOut();
                         $(this).next("input").val(data.result.public_id);
-                        var img_link = "https://res.cloudinary.com/db5nsevmi/" + data.result.public_id;
+                        var img_link = "https://res.cloudinary.com/dq14n6i0f/" + data.result.public_id;
                         $(this).parents(".image_block").find(".img_pre").each(function(){
                             if ($(this).find('img').length){
                                 $(this).find('img').remove();
@@ -234,7 +234,7 @@ $(function(){
             .bind('cloudinarydone', function(e, data) {
                 $(".progress_main_box").fadeOut();
                 $(this).next("input").val(data.result.public_id);
-                var img_link = "https://res.cloudinary.com/db5nsevmi/" + data.result.public_id;
+                var img_link = "https://res.cloudinary.com/dq14n6i0f/" + data.result.public_id;
                 if ($(this).parents(".image_block").find(".img_pre").length){
                     $(this).parents(".image_block").find(".img_pre").each(function(){
                         if ($(this).find('img').length){
