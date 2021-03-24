@@ -64,7 +64,7 @@ redis==3.0.1
 regex==2019.3.12
 requests==2.20.1
 requests-oauthlib==1.0.0
-rsa==4.0
+rsa==4.1
 selenium==3.141.0
 six==1.11.0
 social-auth-app-django==3.1.0
